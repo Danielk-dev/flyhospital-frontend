@@ -1,0 +1,191 @@
+/* Custom styles for the modal and range slider */
+.modal-content {
+    border-radius: 10px;
+    /* Slightly rounded corners for the modal */
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+    border-bottom: none;
+    /* Remove default Bootstrap border */
+    padding-bottom: 0;
+}
+
+.modal-title {
+    font-weight: 600;
+    /* Make the title a bit bolder */
+    font-size: 1.25rem;
+}
+
+.form-label {
+    font-size: 0.875rem;
+    /* Smaller label text */
+    color: #6c757d;
+}
+
+.form-control {
+    border-radius: 5px;
+    padding: 0.5rem 0.75rem;
+}
+
+/* Custom Range Slider Styling */
+.range-slider-container {
+    position: relative;
+    height: 50px;
+    /* Height to accommodate labels and track */
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.range-slider-container input[type="range"] {
+    position: absolute;
+    width: 100%;
+    -webkit-appearance: none;
+    background: transparent;
+    pointer-events: none;
+    /* Allow interaction with the fill */
+    z-index: 2;
+    /* Ensure thumbs are above the track */
+}
+
+/* Common track styles for both sliders */
+.range-slider-container input[type="range"]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 4px;
+    cursor: pointer;
+    background: transparent;
+    /* Hide default track */
+}
+
+.range-slider-container input[type="range"]::-moz-range-track {
+    width: 100%;
+    height: 4px;
+    cursor: pointer;
+    background: transparent;
+    /* Hide default track */
+}
+
+.range-slider-container input[type="range"]::-ms-track {
+    width: 100%;
+    height: 4px;
+    cursor: pointer;
+    background: transparent;
+    /* Hide default track */
+}
+
+/* Common thumb styles for both sliders */
+.range-slider-container input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #0d2d52;
+    /* Primary blue color */
+    cursor: pointer;
+    margin-top: -8px;
+    /* Adjust to center with the track */
+    pointer-events: all;
+    /* Make thumb interactive */
+    border: 2px solid #fff;
+    /* White border for the thumb */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.range-slider-container input[type="range"]::-moz-range-thumb {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #0d2d52;
+    cursor: pointer;
+    border: 2px solid #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.range-slider-container input[type="range"]::-ms-thumb {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #0d2d52;
+    cursor: pointer;
+    border: 2px solid #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Custom track background */
+.range-track {
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    background-color: #e9ecef;
+    /* Light grey track */
+    border-radius: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Custom fill between thumbs */
+.range-fill {
+    position: absolute;
+    height: 4px;
+    background-color: #0d2d52;
+    /* Blue fill */
+    border-radius: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    /* Below the thumbs */
+    /* Width and left position will be controlled by JavaScript */
+}
+
+/* Labels above the thumbs */
+.range-labels {
+    position: absolute;
+    width: 100%;
+    top: -15px;
+    /* Position above the slider */
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #343a40;
+}
+
+.min-label,
+.max-label {
+    position: absolute;
+    background-color: #0d2d52;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    transform: translateX(-50%);
+    /* Center label above thumb */
+    font-size: 0.75rem;
+}
+
+.range-min-value,
+.range-max-value {
+    position: absolute;
+    bottom: -20px;
+    /* Position below the slider */
+    font-size: 0.75rem;
+    color: #6c757d;
+}
+
+.range-min-value {
+    left: 0;
+}
+
+.range-max-value {
+    right: 0;
+}
+
+.btn-primary {
+    background-color: #0d2d52;
+    border-color: #0d2d52;
+    font-weight: 500;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
