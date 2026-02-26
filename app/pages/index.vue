@@ -14,7 +14,10 @@
 
         <!--=============== TOP DESTINATIONS ===============-->
         <DestinationList />
-
+         <!--=============== TOP FindPlan ===============-->
+		<FindPlan />
+		<!--=============== TOP GlobalHostpital ===============-->
+	     <GlobalHospital />
         <!--=============== EXPLORE TREATMENT ===============-->
         <TreatmentList />
 
@@ -32,7 +35,9 @@ import AboutSection from '~/components/landingPage/AboutSection.vue';
 import HeroSection from '~/components/landingPage/HeroSection.vue';
 import HowItWorks from '~/components/landingPage/HowItWorks.vue';
 import TreatmentServices from '~/components/landingPage/TreatmentServices.vue';
+import FindPlan from '~/components/plans/FindPlan.vue';
 import { useGeneralStore } from '~/stores/general';
+import GlobalHospital from '~/components/globalhospital/GlobalHospital.vue';
 
 const generalStore = useGeneralStore()
 
