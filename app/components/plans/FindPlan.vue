@@ -3,7 +3,7 @@
     <!-- Header -->
     <div class="header">
       <h1>Find Your Plan: 3 Easy steps</h1>
-      <p class="subtitle">(steps copy here)</p>
+      
     </div>
 
     <!-- Content -->
