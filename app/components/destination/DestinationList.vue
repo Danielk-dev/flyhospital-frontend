@@ -29,7 +29,13 @@
                    @load="imageLoaded[destination.id] = true"
                    @error="imageLoaded[destination.id] = true">
               <div class="card-content">
-                <p class="card-subtitle">Looking for medical in</p>
+                <p class="card-subtitle">
+  <span class="icon">
+  <img src="@/assets/img/Group.svg" alt="Group" class="icon-img">
+</span>
+  <span class="count">25+</span>
+  Clinics
+</p>
                 <div class="card-title-bar">
                   <h3>
                     <NuxtLink style="text-decoration: none;color: #053862;"
@@ -37,7 +43,7 @@
                       {{ destination.country_name }}
                     </NuxtLink>
                   </h3>
-                  <span class="rating">4.5<span class="star">★</span></span>
+                  
                 </div>
               </div>
             </div>
@@ -114,7 +120,35 @@ const prevSlide = () => {
   flex: 0 0 auto;
   width: calc(100% / 4); /* desktop default */
 }
+.count{
+  color: #343434;
+    font-family: 'Inter', sans-serif;
+  font-weight: 500;     /* Medium */
+  font-size: 18px;
+  line-height:0px;    /* Example proper value */
+  letter-spacing: 0px;
+}
+.card-subtitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 500;
+}
 
+.icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
 @media (max-width: 991.98px) {
   .destination-card {
     width: calc(100% / 2); /* tablet */
