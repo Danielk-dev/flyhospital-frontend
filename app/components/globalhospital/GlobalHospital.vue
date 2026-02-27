@@ -11,12 +11,14 @@
 
         <!-- Content -->
         <div class="content">
-          <h2>Explore The Global Hospital</h2>
+          <h2>Explore The Global Hospitals</h2>
           <p>
             Discover top-notch hospitals around the globe offering exceptional medical treatments.<br />
             Explore your options for world-class healthcare wherever you are!
           </p>
-          <button>View All Procedure</button>
+        <a href="https://clickhospitals.com/hospitals/" >
+  <button>View All Hospitals</button>
+</a>
         </div>
 
       </div>
