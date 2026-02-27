@@ -15,12 +15,9 @@
         <div class="step-card1">
           <div class="step-number">1</div>
           <div class="step-content">
-            <h3>Find Your Plan</h3>
+            <h3>Search Our Directory</h3>
             <p>
-              To locate a hospital on our website, simply use the search bar
-              at the top of the page. Enter the name of the hospital or your
-              location, and hit search. You can also browse through our
-              directory for a comprehensive list of facilities.
+             Use the search bar at the top of the page to find the right hospital for your needs. Enter a hospital name, specialty, treatment, or location. You can also browse our directory to explore verified hospitals worldwide.
             </p>
           </div>
         </div>
@@ -28,12 +25,9 @@
         <div class="step-card">
           <div class="step-number">2</div>
           <div class="step-content">
-            <h3>Check Coverage Options</h3>
+            <h3>Visit the Hospital Page</h3>
             <p>
-              To understand your insurance coverage, review your policy
-              documents or contact customer service. Our representatives are
-              available to explain the benefits available to you and how they
-              apply when visiting a hospital.
+          Click on a hospital to access complete details, including specialties, services offered, facility information, contact details, and helpful insights to guide your decision.
             </p>
           </div>
         </div>
@@ -41,12 +35,9 @@
         <div class="step-card">
           <div class="step-number">3</div>
           <div class="step-content">
-            <h3>Schedule an Appointment</h3>
+            <h3>Explore Nearby Essentials</h3>
             <p>
-              Once you have selected a hospital, call the facility or use
-              their online portal to schedule an appointment. Be sure to have
-              your insurance information ready, as well as any necessary
-              referrals from your primary care physician.
+             Make your visit easier by browsing nearby hotels, restaurants, and transportation options. We provide convenient local recommendations to help you plan your stay with confidence and comfort.
             </p>
           </div>
         </div>
