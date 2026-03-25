@@ -161,7 +161,7 @@ const stripHtml = (html: string) => {
 
 .blog-slide {
   flex: 0 0 auto;
-  width: calc(100% / 3);
+  width: calc(100% / 4);
   padding: 10px;
   box-sizing: border-box;
 }
