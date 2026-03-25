@@ -3,14 +3,15 @@
         <!--=============== HERO / BANNER  ===============-->
         <HeroSection />
 
+		
+        <!--=============== HOW IT WORKS ===============-->
+        <HowItWorks />
         <!--=============== ABOUT  ===============-->
         <AboutSection />
 
         <!--=============== TREATMENT SERVICES ===============-->
         <TreatmentServices />
 
-        <!--=============== HOW IT WORKS ===============-->
-        <HowItWorks />
 
         <!--=============== TOP DESTINATIONS ===============-->
         <DestinationList />
