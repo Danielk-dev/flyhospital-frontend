@@ -44,98 +44,97 @@
                   Destination
                   <Icon :name="activeDropdown === 'destination' ? 'carbon:chevron-up' : 'carbon:chevron-down'" />
                 </button>
-                <div v-if="activeDropdown === 'destination'" class="main-dropdown shadow-sm border rounded">
-                  <div class="dropdown-grid">
-                    <!-- Countries Column -->
-                    <div class="countries-column">
-                      <div class="dropdown-header">
-                        <h3>Locations</h3>
-                      </div>
+                <div v-if="activeDropdown === 'destination'" class="main-dropdown-menu shadow-sm border rounded">
+                  <div class="procedure-container">
+                    <ul class="main-treatment-list mb-0">
+                      <li  
+                        v-for="country in countries.slice(0, 5)"
+                        :key="country.id"
+                        class="treatment-item"
+                        @mouseenter="!isMobile && handleCountryHover(country.id)"
+                        @mouseleave="!isMobile && handleCountryLeave()"
+                      >
+                        <div class="d-flex align-items-center justify-content-between w-100">
+                          <NuxtLink
+                            :to="`/hospitals?country_id=${country.id}`"
+                            class="treatment-link flex-grow-1"
+                            :class="{ active: activeCountry === country.id }"
+                            @click="closeAllMenus"
+                          >
+                            <div class="country-flag">
+                              <img
+                                :src="country.image_url || country.media?.[0]?.original_url"
+                                :alt="country.country_name"
+                                @error="handleImageError"
+                              />
+                            </div>
+                            <div class="country-info">
+                              <span class="treatment-name">{{ country.country_name }}</span>
+                              <!-- <span class="hospital-count">{{ country.hospitals_count }} Hospitals</span> -->
+                            </div>
+                             <button 
+                            v-if="isMobile" 
+                            class="btn btn-link p-2" 
+                            @click.stop="handleCountryHover(country.id)"
+                          >
+                            <Icon :name="activeCountry === country.id ? 'carbon:chevron-up' : 'carbon:chevron-right'" />
+                          </button>
+                          <Icon v-else name="carbon:chevron-right" class="chevron-icon" />
+                          </NuxtLink>
+                         
+                        </div>
 
-                      <div class="countries-list">
+                        <!-- Cities as Sub Treatments (Desktop) -->
                         <div
-                          v-for="country in countries.slice(0, 5)"
-                          :key="country.id"
-                          class="country-item-wrapper"
-                          @mouseenter="!isMobile && handleCountryHover(country.id)"
-                          @mouseleave="!isMobile && handleCountryLeave()"
+                          v-if="!isMobile && activeCountry === country.id && citiesData[country.id]?.length"
+                          class="subtreatment-dropdown"
+                          @mouseenter="keepCitiesOpen = true"
+                          @mouseleave="handleCitiesLeave"
                         >
-                          <div class="d-flex align-items-center justify-content-between w-100">
-                            <NuxtLink
-                              :to="`/hospitals?country_id=${country.id}`"
-                              class="country-link flex-grow-1"
-                              :class="{ active: activeCountry === country.id }"
-                              @click="closeAllMenus"
-                            >
-                              <div class="country-flag">
-                                <img
-                                  :src="country.image_url || country.media?.[0]?.original_url"
-                                  :alt="country.country_name"
-                                  @error="handleImageError"
-                                />
-                              </div>
-                              <div class="country-info">
-                                <span class="country-name">{{ country.country_name }}</span>
-                                <span class="hospital-count">{{ country.hospitals_count }} Hospitals</span>
-                              </div>
-                            </NuxtLink>
-                            <button 
-                              v-if="isMobile" 
-                              class="btn btn-link p-2" 
-                              @click.stop="handleCountryHover(country.id)"
-                            >
-                              <Icon :name="activeCountry === country.id ? 'carbon:chevron-up' : 'carbon:chevron-right'" />
-                            </button>
-                            <Icon v-else name="carbon:chevron-right" class="chevron-icon" />
-                          </div>
-
-                          <!-- Mobile Cities (inline) -->
-                          <div v-if="isMobile && activeCountry === country.id" class="mobile-cities-list">
-                            <ul class="list-unstyled ps-4">
-                              <li v-for="city in citiesData[country.id]" :key="city.id" class="py-1">
+                          <div class="subtreatment-menu">
+                            <!-- <div class="subtreatment-header">
+                              <h4>{{ getCountryName(country.id) }}</h4>
+                            </div> -->
+                            <ul class="subtreatment-list mb-0">
+                              <li v-for="city in citiesData[country.id]" :key="city.id">
                                 <NuxtLink
                                   :to="`/hospitals?country_id=${country.id}&city_id=${city.id}`"
-                                  class="text-decoration-none text-muted small"
+                                  class="subtreatment-link py-2 d-block"
                                   @click="closeAllMenus"
                                 >
                                   {{ city.city_name || city.name }}
+                                  <!-- <span class="hospital-badge-small">
+                                    {{ city.hospitals_count ?? cityHospitalCounts[country.id]?.[Number(city.id)] ?? 0 }}
+                                  </span> -->
                                 </NuxtLink>
                               </li>
                             </ul>
                           </div>
                         </div>
 
-                        <!-- Show More button -->
-                        <div v-if="countries.length > 5" class="show-more-container">
-                          <button @click="navigateToDestinations" class="show-more-btn">
-                            Show More
-                          </button>
+                        <!-- Mobile Cities (inline) -->
+                        <div v-if="isMobile && activeCountry === country.id" class="subtreatment-inline">
+                          <ul class="subtreatment-list mb-0 ps-4 small">
+                            <li v-for="city in citiesData[country.id]" :key="city.id" class="py-1">
+                              <NuxtLink
+                                :to="`/hospitals?country_id=${country.id}&city_id=${city.id}`"
+                                class="subtreatment-link py-2 d-block"
+                                @click="closeAllMenus"
+                              >
+                                {{ city.city_name || city.name }}
+                              </NuxtLink>
+                            </li>
+                          </ul>
                         </div>
-                      </div>
-                    </div>
+                      </li>
 
-                    <!-- Cities Column (Desktop only) -->
-                    <div
-                      v-if="!isMobile && activeCountry !== null && citiesData[activeCountry]?.length"
-                      class="cities-column simple-cities"
-                      @mouseenter="keepCitiesOpen = true"
-                      @mouseleave="handleCitiesLeave"
-                    >
-                      <ul class="cities-list-simple">
-                        <li v-for="city in citiesData[activeCountry]" :key="city.id" class="cities-list-item">
-                          <NuxtLink
-                            :to="`/hospitals?country_id=${activeCountry}&city_id=${city.id}`"
-                            class="city-link-simple"
-                            @click="closeAllMenus"
-                          >
-                            {{ city.city_name || city.name }}
-                            <span class="hospital-badge-small">
-                              {{ city.hospitals_count ?? cityHospitalCounts[activeCountry ?? 0]?.[Number(city.id)] ?? 0 }}
-                            </span>
-                          </NuxtLink>
-                        </li>
-                      </ul>
-                    </div>
+                      <!-- Show More button -->
+                      <li v-if="countries.length > 5" class="see-all-item border-top mt-2">
+                        <button @click="navigateToDestinations" class="see-all-link text-center py-2">
+                          Show More
+                        </button>
+                      </li>
+                    </ul>
                   </div>
                 </div>
               </div>
@@ -167,15 +166,10 @@
                             class="treatment-link flex-grow-1"
                             @click="closeAllMenus"
                           >
-                            <span class="treatment-name">{{ treatment.name }}</span>
+                            <span class="treatment-name">{{ treatment.name }}</span>                          
+                            <Icon :name="'carbon:chevron-right'" />
                           </NuxtLink>
-                          <button 
-                            v-if="hasSubTreatments(treatment.id)" 
-                            class="btn btn-link p-2 text-muted" 
-                            @click.stop="isMobile ? handleTreatmentHover(treatment.id) : null"
-                          >
-                            <Icon :name="activeTreatment === treatment.id ? 'carbon:chevron-up' : 'carbon:chevron-right'" />
-                          </button>
+                        
                         </div>
 
                         <!-- Sub Treatments (Responsive) -->
@@ -186,9 +180,7 @@
                           @mouseleave="!isMobile && handleSubTreatmentLeave()"
                         >
                           <div class="subtreatment-menu">
-                            <div v-if="!isMobile" class="subtreatment-header">
-                              <h4>{{ getTreatmentName(treatment.id) }}</h4>
-                            </div>
+                           
                             <ul class="subtreatment-list mb-0" :class="{ 'ps-4 small': isMobile }">
                               <li v-for="sub in subTreatmentsData[treatment.id].slice(0, 9)" :key="sub.id">
                                 <NuxtLink
@@ -390,7 +382,7 @@ const keepCitiesOpen = ref(false);
 const hoverTimeout = ref<ReturnType<typeof setTimeout> | null>(null);
 const loading = ref(false);
 const error = ref<string | null>(null);
-
+const subTreatmentsData = ref<Record<number, CityItem[]>>({});
 // Fetch countries from API
 const fetchCountries = async () => {
   try {
@@ -586,7 +578,6 @@ onUnmounted(() => {
 
 // Procedure dropdown logic
 const mainTreatments = ref([]);
-const subTreatmentsData = ref({});
 const activeTreatment = ref(null);
 const keepSubtreatmentsOpen = ref(false);
 
@@ -595,7 +586,6 @@ const fetchMainTreatments = async () => {
   try {
     loading.value = true;
     const response = await fetch("https://flyhospitals.dev/api/sub-treatments");
-
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -626,28 +616,29 @@ const fetchMainTreatments = async () => {
 };
 
 // Fetch sub-treatments for a specific treatment
-const fetchSubTreatments = async (treatmentId) => {
+const fetchSubTreatments = async (treatmentId:   number | string) => {
+  const treatmentKey = Number(treatmentId);
   // Skip if we already have sub-treatments for this treatment
-  if (subTreatmentsData.value[treatmentId] !== undefined) {
+  if (subTreatmentsData.value[treatmentKey] !== undefined) {
     return;
   }
 
   try {
     // Initialize as empty array to prevent multiple requests
-    subTreatmentsData.value[treatmentId] = [];
+    subTreatmentsData.value[treatmentKey] = [];
 
     const response = await fetch(
-      `https://flyhospitals.dev/api/sub-treatments?parent_id=${treatmentId}`,
+      `https://flyhospitals.dev/api/sub-treatments?parent_id=${treatmentKey}`,
     );
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch sub-treatments for ID ${treatmentId}`);
+      throw new Error(`Failed to fetch sub-treatments for ID ${treatmentKey}`);
     }
 
     const result = await response.json();
 
     if (result.status && Array.isArray(result.data)) {
-      subTreatmentsData.value[treatmentId] = result.data.map((sub) => ({
+      subTreatmentsData.value[treatmentKey] = result.data.map((sub) => ({
         id: sub.id,
         name: sub.name,
         image_url: sub.image_url,
@@ -655,27 +646,28 @@ const fetchSubTreatments = async (treatmentId) => {
         parent_id: sub.parent_id,
       }));
     } else {
-      subTreatmentsData.value[treatmentId] = [];
+      subTreatmentsData.value[treatmentKey] = [];
     }
   } catch (err) {
     console.error(
-      `Error fetching sub-treatments for treatment ${treatmentId}:`,
+      `Error fetching sub-treatments for treatment ${treatmentKey}:`,
       err,
     );
-    subTreatmentsData.value[treatmentId] = [];
+    subTreatmentsData.value[treatmentKey] = [];
   }
 };
 
 // Check if treatment has sub-treatments
-const hasSubTreatments = (treatmentId) => {
+const hasSubTreatments = (treatmentId:   number | string) => {
+  const treatmentKey = Number(treatmentId);
   return (
-    subTreatmentsData.value[treatmentId] &&
-    subTreatmentsData.value[treatmentId].length > 0
+    subTreatmentsData.value[treatmentKey] &&
+    subTreatmentsData.value[treatmentKey].length > 0
   );
 };
 
 // Handle treatment hover
-const handleTreatmentHover = async (treatmentId) => {
+const handleTreatmentHover = async (treatmentId:   number | string) => {
   // Clear any existing timeout
   if (hoverTimeout.value) {
     clearTimeout(hoverTimeout.value);
@@ -823,22 +815,29 @@ const getTreatmentName = (treatmentId) => {
 }
 
 .chevron-icon {
-  margin-left: auto;
-  opacity: 0;
+  margin-left: 8px;
+  opacity: 1;
   transition: all 0.2s ease;
   color: #9ca3af;
+  font-size: 1rem;
 }
 
-.country-link:hover .chevron-icon {
-  opacity: 1;
-  transform: translateX(4px);
+.treatment-item:hover .chevron-icon {
+  transform: translateX(2px);
+  color: #0066b3;
+  margin: 0px 5px 0px 5px;
 }
-
+.treatment-item:hover {
+  transform: translateX(2px);
+  color: #0066b3;
+  margin: 0px 5px 0px 5px;
+}
 /* Flag Styling */
 .country-flag {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
+  width: 30px;
+  height: 25px;
+  border-radius: 20%;
+  margin-right: 5px;
   overflow: hidden;
   flex-shrink: 0;
   background-color: #f0f0f0;
