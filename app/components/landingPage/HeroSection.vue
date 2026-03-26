@@ -2,133 +2,192 @@
   <section class="hero-section">
     <div class="hero-layout">
       <div class="hero-text">
-        <h1>
-          Find the Right Hospital Anywhere <span>in World.</span>
-        </h1>
+        <h1>Find the Right Hospital Anywhere <span>in World.</span></h1>
         <p>
-          ClickHospitals helps you explore and connect with internationally accredited hospitals,
-          based on your procedure needs, budget, and destination.
+          ClickHospitals helps you explore and connect with internationally
+          accredited hospitals, based on your procedure needs, budget, and
+          destination.
         </p>
 
         <!-- Search -->
         <div class="search-container">
-          <h3>Search hospitals by name</h3>
+          <div class="container">
+            <h3>Search hospitals by name</h3>
+            <div class="text-primary float-end d-flex align-items-center gap-1 cursor-pointer" @click="showAdvancedModal = true">
+              Advance Search
+              <Icon v-if="hasActiveFilters" name="material-symbols:check-circle" class="text-primary" />
+            </div>
+            <br />
+            <br />
+          </div>
           <div class="search-bar">
-            <input type="text" v-model="store.search" placeholder="Search hospitals by name..." />
-            <a href="#" @click.prevent="submitSearch" style="text-decoration: none !important;">Search</a>
+            <input
+              type="text"
+              v-model="store.search"
+              placeholder="Search hospitals by name..."
+            />
+            <a
+              href="#"
+              @click.prevent="submitSearch"
+              style="text-decoration: none !important"
+              >Search</a
+            >
           </div>
 
           <!-- Active Filters Chips -->
           <div class="active-filters" v-if="hasActiveFilters">
-            <!-- Treatment -->
+            <!-- Treatment/Category -->
             <div class="filter-chip" v-if="store.treatment_id">
+              <Icon name="material-symbols:check-circle" class="text-primary me-1" />
               {{ getTreatmentName(store.treatment_id) }}
               <button class="chip-close" @click="clearTreatment">×</button>
             </div>
-
-            <!-- Category -->
-            <div class="filter-chip" v-if="store.category_id">
+            <div class="filter-chip" v-else-if="store.category_id">
+              <Icon name="material-symbols:check-circle" class="text-primary me-1" />
               {{ getCategoryName(store.category_id) }}
               <button class="chip-close" @click="clearCategory">×</button>
             </div>
 
             <!-- Destination -->
             <div class="filter-chip" v-if="store.country_id || store.city_id">
+              <Icon name="material-symbols:check-circle" class="text-primary me-1" />
               {{ getDestinationName(store.country_id, store.city_id) }}
               <button class="chip-close" @click="clearDestination">×</button>
             </div>
           </div>
 
-          <!-- Filter buttons -->
-          <div class="filters">
+          <!-- Filter buttons (Disabled as per user request) -->
+          <!-- <div class="filters">
             <button class="filter-btn" @click="showTreatmentModal = true">
-              <Icon name="streamline-pixel:interface-essential-setting-slide" /> Search by Procedure
+              <Icon name="streamline-pixel:interface-essential-setting-slide" />
+              Search by Procedure
             </button>
             <button class="filter-btn" @click="showDestinationModal = true">
               <Icon name="uiw:map" /> Search by Destination
             </button>
-          </div>
+          </div> -->
         </div>
       </div>
 
       <div class="hero-image">
-        <img src="~/assets/img/banner.jpg" alt="Patients at a hospital reception" class="rounded-left-bottom"
-          loading="lazy" :class="{ 'image-loading': !imageLoaded }" @load="imageLoaded = true"
-          @error="imageLoaded = true" />
+        <img
+          src="~/assets/img/banner.jpg"
+          alt="Patients at a hospital reception"
+          class="rounded-left-bottom"
+          loading="lazy"
+          :class="{ 'image-loading': !imageLoaded }"
+          @load="imageLoaded = true"
+          @error="imageLoaded = true"
+        />
       </div>
     </div>
   </section>
 
-  <!-- ================= Treatment Modal ================= -->
-  <div v-if="showTreatmentModal" class="modal-backdrop">
-    <div class="modal-dialog modal-dialog-centered card herocard">
+  <!-- ================= Advanced Search Modal ================= -->
+  <div v-if="showAdvancedModal" class="modal-backdrop">
+    <div class="modal-dialog modal-dialog-centered card herocard shadow-lg" style="max-width: 600px; width: 90%;">
       <div class="modal-content card-body">
-        <div class="modal-header border-0 pb-0">
-          <h5 class="modal-title">Search by Procedure</h5>
-          <button type="button" class="btn-close" @click="showTreatmentModal = false"></button>
+        <div class="modal-header border-0 pb-3">
+          <h5 class="modal-title fw-bold">Advanced Search</h5>
+          <button
+            type="button"
+            class="btn-close"
+            @click="showAdvancedModal = false"
+          ></button>
         </div>
         <div class="modal-body pt-0">
-          <div class="row g-2 align-items-center mb-3">
-            <div>
-              <label>Procedure</label>
-              <br>
-              <select class="form-control" v-model="selectedCategoryId">
-                <option value="">Select procedure</option>
-                <option v-for="cat in categoryOptions" :key="cat.value" :value="cat.value">
-                  {{ cat.label }}
-                </option>
-              </select>
+          <div class="row g-4">
+            <!-- Procedure Section -->
+            <div class="col-md-6 border-end">
+              <h6 class="fw-bold mb-3 d-flex align-items-center justify-content-between">
+                <span class="d-flex align-items-center gap-2">
+                  <Icon name="streamline-pixel:interface-essential-setting-slide" class="text-primary" />
+                  Procedure
+                </span>
+                <Icon v-if="selectedCategoryId || selectedTreatmentId" name="material-symbols:check-circle" class="text-primary" />
+              </h6>
+              <div class="mb-3">
+                <label class="form-label small text-muted">Category</label>
+                <select class="form-select" v-model="selectedCategoryId">
+                  <option value="">Select category</option>
+                  <option
+                    v-for="cat in categoryOptions"
+                    :key="cat.value"
+                    :value="cat.value"
+                  >
+                    {{ cat.label }}
+                  </option>
+                </select>
+              </div>
+              <div v-if="selectedCategoryId && selectedCategoryId !== ''">
+                <label class="form-label small text-muted">Procedure Type</label>
+                <select class="form-select" v-model="selectedTreatmentId">
+                  <option value="">Select procedure type</option>
+                  <option
+                    v-for="tr in treatmentOptions"
+                    :key="tr.value"
+                    :value="String(tr.value)"
+                  >
+                    {{ tr.label }}
+                  </option>
+                </select>
+              </div>
             </div>
-            <div v-if="selectedCategoryId && selectedCategoryId !== ''">
-              <label>Procedure Type</label>
-              <select class="form-control" v-model="selectedTreatmentId">
-                <option value="">Select procedure type</option>
-                <option v-for="tr in treatmentOptions" :key="tr.value" :value="String(tr.value)">
-                  {{ tr.label }}
-                </option>
-              </select>
-            </div>
-          </div>
-          <button type="button" class="btn btn-primary w-100" @click="applyTreatmentFilter">
-            Apply
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- ================= Destination Modal ================= -->
-  <div v-if="showDestinationModal" class="modal-backdrop">
-    <div class="modal-dialog modal-dialog-centered card herocard">
-      <div class="modal-content card-body">
-        <div class="modal-header border-0 pb-0">
-          <h5 class="modal-title mb-1">Search by Destination</h5>
-          <button type="button" class="btn-close" @click="showDestinationModal = false"></button>
-        </div>
-        <div class="modal-body pt-0">
-          <div class="row g-2 align-items-center mb-3">
-            <div>
-              <label>Country</label>
-              <select class="form-control" v-model="selectedCountryId">
-                <option value="">Select country</option>
-                <option v-for="c in countryOptions" :key="c.value" :value="String(c.value)">
-                  {{ c.label }}
-                </option>
-              </select>
-            </div>
-            <div v-if="selectedCountryId && selectedCountryId !== ''">
-              <label>City</label>
-              <select class="form-control" v-model="selectedCityId">
-                <option value="">Select city</option>
-                <option v-for="city in cityOptions" :key="city.value" :value="String(city.value)">
-                  {{ city.label }}
-                </option>
-              </select>
+            <!-- Destination Section -->
+            <div class="col-md-6">
+              <h6 class="fw-bold mb-3 d-flex align-items-center justify-content-between">
+                <span class="d-flex align-items-center gap-2">
+                  <Icon name="uiw:map" class="text-primary" />
+                  Destination
+                </span>
+                <Icon v-if="selectedCountryId || selectedCityId" name="material-symbols:check-circle" class="text-primary" />
+              </h6>
+              <div class="mb-3">
+                <label class="form-label small text-muted">Country</label>
+                <select class="form-select" v-model="selectedCountryId">
+                  <option value="">Select country</option>
+                  <option
+                    v-for="c in countryOptions"
+                    :key="c.value"
+                    :value="String(c.value)"
+                  >
+                    {{ c.label }}
+                  </option>
+                </select>
+              </div>
+              <div v-if="selectedCountryId && selectedCountryId !== ''">
+                <label class="form-label small text-muted">City</label>
+                <select class="form-select" v-model="selectedCityId">
+                  <option value="">Select city</option>
+                  <option
+                    v-for="city in cityOptions"
+                    :key="city.value"
+                    :value="String(city.value)"
+                  >
+                    {{ city.label }}
+                  </option>
+                </select>
+              </div>
             </div>
           </div>
-          <button type="button" class="btn btn-primary w-100" @click="applyDestinationFilter">
-            Apply
-          </button>
+
+          <div class="mt-4 pt-3 border-top d-flex gap-2">
+            <button
+              type="button"
+              class="btn btn-outline-secondary w-50"
+              @click="clearAllFilters"
+            >
+              Reset
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary w-50"
+              @click="applyAdvancedFilter"
+            >
+              Search Now
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -143,8 +202,7 @@ import { useHospitalStore } from "~/stores/hospital";
 const router = useRouter();
 const store = useHospitalStore();
 
-const showTreatmentModal = ref(false);
-const showDestinationModal = ref(false);
+const showAdvancedModal = ref(false);
 const imageLoaded = ref(false);
 
 // Treatment state (use only ID instead of object)
@@ -159,31 +217,34 @@ const selectedCityId = ref<string | number | "">("");
 // ✅ Load in background (non-blocking) - only if data doesn't exist
 onMounted(() => {
   if (store.countries.length === 0) {
-    store.loadCountries().catch(err => {
-      console.error('Failed to load countries:', err);
+    store.loadCountries().catch((err) => {
+      console.error("Failed to load countries:", err);
     });
   }
   if (store.procedure.length === 0) {
-    store.loadprocedure().catch(err => {
-      console.error('Failed to load procedures:', err);
+    store.loadprocedure().catch((err) => {
+      console.error("Failed to load procedures:", err);
     });
   }
 });
 
 const countryOptions = computed(() =>
-  store.countries.map((country) => ({ label: country.country_name, value: country.id }))
+  store.countries.map((country) => ({
+    label: country.country_name,
+    value: country.id,
+  })),
 );
 
 const cityOptions = computed(() =>
-  store.cities.map((city) => ({ label: city.name, value: city.id }))
+  store.cities.map((city) => ({ label: city.name, value: city.id })),
 );
 
 // ===== Category & Treatment Options =====
 const categoryOptions = computed(() =>
-  store.procedure.map((cat) => ({ label: cat.name, value: cat.id }))
+  store.procedure.map((cat) => ({ label: cat.name, value: cat.id })),
 );
 const treatmentOptions = computed(() =>
-  store.subprocedure.map((t) => ({ label: t.name, value: t.id }))
+  store.subprocedure.map((t) => ({ label: t.name, value: t.id })),
 );
 
 // ===== Watchers =====
@@ -215,91 +276,21 @@ watch(selectedTreatmentId, (newVal) => {
 });
 
 // ===== Apply Filters =====
-const applyTreatmentFilter = () => {
-  showTreatmentModal.value = false;
-
-  // Get the selected values
-  const treatmentIdValue = selectedTreatmentId.value;
-  const categoryIdValue = selectedCategoryId.value;
-
-  console.log('treatmentIdValue:', treatmentIdValue, 'categoryIdValue:', categoryIdValue);
-  console.log('treatmentOptions:', treatmentOptions.value);
-
-  // Check if a treatment is selected (not empty string, null, or undefined)
-  if (treatmentIdValue !== '' && treatmentIdValue != null) {
-    // Find the treatment name from options
-    // Compare by converting both to strings since HTML select returns strings
-    const treatment = treatmentOptions.value.find(t => {
-      // Convert both to strings for comparison
-      const match = String(t.value) === String(treatmentIdValue);
-      console.log(`Comparing: ${String(t.value)} === ${String(treatmentIdValue)} = ${match}`);
-      return match;
-    });
-
-    console.log('Found treatment:', treatment);
-
-    if (treatment) {
-      const treatmentName = treatment.label;
-
-      // Create slug from treatment name (URL-encoded)
-      const slug = encodeURIComponent(treatmentName);
-
-      console.log('Navigating to:', `/all-procedure/${slug}`, 'with name:', treatmentName);
-
-      // Navigate to all-procedure page with slug
-      router.push({
-        path: `/all-procedure/${slug}`
-      });
-    } else {
-      console.log('Treatment not found in options');
-    }
-  } else if (categoryIdValue !== '' && categoryIdValue != null) {
-    // If only category is selected, use category_id to navigate to subprocedure page
-    console.log('Only category selected, using category_id:', categoryIdValue);
-
-    // Find the category name from options
-    const category = categoryOptions.value.find(c => {
-      return String(c.value) === String(categoryIdValue);
-    });
-
-    if (category) {
-      const categoryName = category.label;
-      const categoryId = String(category.value);
-
-      console.log('Navigating to:', `/subprocedure/${categoryId}?name=${encodeURIComponent(categoryName)}`);
-
-      // Navigate to subprocedure page with category ID and name
-      router.push({
-        path: `/subprocedure/${categoryId}`,
-        query: { name: categoryName }
-      });
-    } else {
-      console.log('Category not found in options');
-    }
-  } else {
-    console.log('No category or treatment selected');
-  }
+const applyAdvancedFilter = () => {
+  showAdvancedModal.value = false;
+  submitSearch();
 };
 
-const applyDestinationFilter = () => {
-  showDestinationModal.value = false;
-
-  // Build query object with selected filters
-  const query: Record<string, string> = {};
-
-  if (selectedCountryId.value && selectedCountryId.value !== '') {
-    query.country_id = String(selectedCountryId.value);
-  }
-
-  if (selectedCityId.value && selectedCityId.value !== '') {
-    query.city_id = String(selectedCityId.value);
-  }
-
-  // Navigate to hospitals page with filters
-  router.push({
-    path: '/hospitals',
-    query
-  });
+const clearAllFilters = () => {
+  store.search = "";
+  store.category_id = null;
+  store.treatment_id = null;
+  store.country_id = null;
+  store.city_id = null;
+  selectedCategoryId.value = "";
+  selectedTreatmentId.value = "";
+  selectedCountryId.value = "";
+  selectedCityId.value = "";
 };
 
 const clearTreatment = () => {
@@ -336,20 +327,39 @@ const getDestinationName = (country: string | null, city: string | null) => {
 };
 
 const hasActiveFilters = computed(() => {
-  return store.category_id || store.treatment_id || store.country_id || store.city_id;
+  return (
+    store.category_id || store.treatment_id || store.country_id || store.city_id
+  );
 });
 
 // ===== Submit Search =====
 const submitSearch = () => {
   const query: Record<string, any> = {};
-  // Only search by name when clicking the search button
+
+  // Merge search name
   if (store.search) query.search = store.search;
+
+  // Merge advanced filters from store
+  if (store.country_id) query.country_id = String(store.country_id);
+  if (store.city_id) query.city_id = String(store.city_id);
+  if (store.category_id) query.category_id = String(store.category_id);
+  if (store.treatment_id) query.treatment_id = String(store.treatment_id);
+
+  // If ONLY category or treatment is selected (no search, no destination),
+  // we can still use the special routes if preferred, but for combined search,
+  // /hospitals is the correct destination.
+  // To satisfy the "it's not working correctly" feedback,
+  // we ensure everything is sent to /hospitals.
 
   router.push({ path: "/hospitals", query });
 };
 </script>
 
 <style scoped>
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .modal-backdrop {
   position: fixed;
   inset: 0;

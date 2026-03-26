@@ -45,7 +45,7 @@
                 </div>
             </template>
             <div v-else class="text-center text-muted py-5">
-                No hospitals found.
+                No sub-procedures found for this category.
             </div>
         </div>
 

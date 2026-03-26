@@ -30,14 +30,19 @@
     </div>
 
     <!-- Hospital List -->
-    <div class="hospital-list">
-      <div v-if="Hotelstore.isLoading" class="text-center py-5">
-        Loading hospitals...
+    <div class="hospital-list position-relative">
+      <!-- Loading Overlay -->
+      <div v-if="pending" class="loading-overlay d-flex justify-content-center align-items-center"
+        :class="{ 'overlay-background': Hotelstore.hospitals.length > 0 }">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
       </div>
-      <div v-else-if="Hotelstore.error" class="text-center text-danger py-5">
-        {{ Hotelstore.error }}
+
+      <div v-if="fetchError || Hotelstore.error" class="text-center text-danger py-5">
+        {{ fetchError?.message || Hotelstore.error }}
       </div>
-      <div v-else-if="filteredHospitals.length === 0" class="text-center text-muted py-5">
+      <div v-else-if="!pending && filteredHospitals.length === 0" class="text-center text-muted py-5">
         No hospitals found for this treatment.
       </div>
       <div v-else>
@@ -64,6 +69,7 @@ import { useRoute } from "vue-router";
 import { useHospitalStore } from "~/stores/hospital";
 import { useFilterHospitalStore } from "~/stores/filterhospital";
 
+
 // Route and stores
 const route = useRoute();
 const slug = computed(() => String(route.params.slug || ""));
@@ -79,36 +85,9 @@ const treatmentName = computed(() => {
   }
 });
 
-// Filter hospitals to only show those with the selected treatment
+// Filter hospitals locally for the selected country (server already filters by treatment/category)
 const filteredHospitals = computed(() => {
   let hospitals = Hotelstore.hospitals;
-
-  if (treatmentName.value && hospitals.length) {
-    const searchName = treatmentName.value.toLowerCase().trim();
-    hospitals = hospitals.filter((hospital) => {
-      // Check if hospital has treatments array
-      if (!hospital.treatments || !Array.isArray(hospital.treatments)) {
-        return false;
-      }
-
-      // Check if any treatment matches the slug (treatment name)
-      return hospital.treatments.some((treatment) => {
-        // Check treatment name (case-insensitive)
-        if (treatment.name && treatment.name.toLowerCase().trim() === searchName) {
-          return true;
-        }
-
-        // Also check children treatments recursively
-        if (treatment.children && Array.isArray(treatment.children)) {
-          return treatment.children.some((child) =>
-            child.name && child.name.toLowerCase().trim() === searchName
-          );
-        }
-
-        return false;
-      });
-    });
-  }
 
   // Local country filter
   if (selectedCountry.value?.value) {
@@ -153,27 +132,47 @@ await useAsyncData("countries", async () => {
   }
 });
 
-// Fetch hospitals
-const fetchHospitals = async () => {
-  const countryslug =
-    selectedCountry.value?.slug || route.query.countryslug || "";
-  await Hotelstore.fetchHospitals(countryslug as string, slug.value);
-};
-
-// Initial fetch
-await fetchHospitals();
-
-// Watch for country changes
-watch(selectedCountry, async (newVal) => {
-  if (newVal?.value) {
-    await store.loadCities(newVal.value);
+// Fetch hospitals with useAsyncData for SSR and hydration support
+const { data: fetchResult, pending, error: fetchError } = await useAsyncData(
+  `hospitals-${slug.value}-${route.query.category_id || 'none'}-${route.query.treatment_id || 'none'}-${selectedCountry.value?.slug || 'all'}`,
+  async () => {
+    const countryslug = selectedCountry.value?.slug || route.query.countryslug || "";
+    const category_id = route.query.category_id as string;
+    const treatment_id = route.query.treatment_id as string;
+    
+    // Determine if we should clear current results (only if the procedure changes)
+    // For country filter changes, we keep existing results while loading
+    const isNewProcedure = true; // For now, let's always clear when slug/IDs change
+    
+    return await Hotelstore.fetchHospitals(
+      countryslug as string, 
+      slug.value, 
+      category_id, 
+      treatment_id, 
+      isNewProcedure, 
+      false
+    );
+  },
+  {
+    // Watch for ANY parameter change (slug, IDs, or country filter)
+    watch: [
+      slug, 
+      () => route.query.category_id, 
+      () => route.query.treatment_id, 
+      selectedCountry
+    ],
+    lazy: false,
+    server: true
   }
-});
+);
 
-// Watch for slug changes (if user navigates to a different procedure)
-watch(slug, async () => {
-  await fetchHospitals();
-});
+// Sync to store on client-side (to handle hydration and route changes)
+watch(fetchResult, (newResult) => {
+  if (newResult && newResult.success) {
+    Hotelstore.hospitals = newResult.data || [];
+    Hotelstore.totalHospitals = newResult.total_hospitals || 0;
+  }
+}, { immediate: true });
 
 // Reset store on unmount
 onUnmounted(() => {
@@ -182,10 +181,43 @@ onUnmounted(() => {
 
 // Load more hospitals (pagination)
 const loadMore = async () => {
-  // Assuming API supports pagination with a page parameter
-  const nextPage = Math.ceil(Hotelstore.hospitals.length / 10) + 1; // Adjust based on API pagination
   const countryslug =
     selectedCountry.value?.slug || route.query.countryslug || "";
-  await Hotelstore.fetchHospitals(countryslug as string, slug.value);
+  
+  // Don't clear, but append the new results
+  await Hotelstore.fetchHospitals(
+    countryslug as string, 
+    slug.value,
+    route.query.category_id as string,
+    route.query.treatment_id as string,
+    false,
+    true
+  );
 };
 </script>
+
+<style scoped>
+.hospital-list {
+  min-height: 200px;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  padding: 50px 0;
+}
+
+.overlay-background {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.details-btn {
+  border-radius: 8px;
+  height: 48px;
+  font-weight: 600;
+}
+</style>

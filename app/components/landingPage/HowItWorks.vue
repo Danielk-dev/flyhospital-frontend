@@ -1,5 +1,5 @@
 <template>
-    <section class="how-it-works-section">
+    <section class="how-it-works-section" style="margin-top: 80px; margin-bottom: 180px;">
         <div class="container">
             <div class="how-it-works-container">
                 <div class="how-it-works-header">
