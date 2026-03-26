@@ -162,7 +162,7 @@
                       >
                         <div class="d-flex align-items-center justify-content-between w-100">
                           <NuxtLink
-                            :to="`/hospitals?category_id=${treatment.id}`"
+                            :to="`/subprocedure/${treatment.id}?name=${encodeURIComponent(treatment.name)}`"
                             class="treatment-link flex-grow-1"
                             @click="closeAllMenus"
                           >
@@ -184,7 +184,7 @@
                             <ul class="subtreatment-list mb-0" :class="{ 'ps-4 small': isMobile }">
                               <li v-for="sub in subTreatmentsData[treatment.id].slice(0, 9)" :key="sub.id">
                                 <NuxtLink
-                                  :to="`/all-procedure/${encodeURIComponent(sub.name)}?category_id=${treatment.id}&treatment_id=${sub.id}`"
+                                  :to="`/all-procedure/${encodeURIComponent(sub.name)}`"
                                   class="subtreatment-link py-2 d-block"
                                   @click="closeAllMenus"
                                 >
@@ -327,6 +327,9 @@ const countryIdFromRoute = computed(() =>
 );
 const destinationCities = computed(() => hospitalStore.cities);
 
+// reactives needed by watchers (declare first to avoid TDZ runtime errors)
+const activeCountry = ref<number | null>(null);
+
 watch(
   countryIdFromRoute,
   async (newCountryId) => {
@@ -377,7 +380,6 @@ interface CityItem {
 const countries = ref<CountryItem[]>([]);
 const citiesData = ref<Record<number, CityItem[]>>({});
 const cityHospitalCounts = ref<Record<number, Record<number, number>>>({});
-const activeCountry = ref<number | null>(null);
 const keepCitiesOpen = ref(false);
 const hoverTimeout = ref<ReturnType<typeof setTimeout> | null>(null);
 const loading = ref(false);

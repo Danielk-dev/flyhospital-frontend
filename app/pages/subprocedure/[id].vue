@@ -4,6 +4,7 @@
         <!-- Breadcrumb -->
         <Breadcrumb :items="[
             { label: 'Home', link: '/' },
+            { label: 'All Procedure', link: '/procedure' },
             { label: name, active: true }
         ]" />
 
