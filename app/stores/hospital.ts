@@ -27,16 +27,13 @@ export const useHospitalStore = defineStore('hospital', {
             if (this.treatment_id) query.append('treatment_id', this.treatment_id)
             const config = useRuntimeConfig()
             const api = `${config.public.baseUrl}/hospitals?${query.toString()}`;
-            const { data, error } = await useFetch(api);
 
-            if (error.value) {
-                console.error('❌ API Error:', error.value)
-                return
-            }
-
-            if (data.value) {
-                this.hospitals = data.value.data ?? data.value
-                this.totalHospitals = data.value.total_hospitals ?? 0
+            try {
+                const data = await $fetch<any>(api);
+                this.hospitals = data.data ?? data
+                this.totalHospitals = data.total_hospitals ?? 0
+            } catch (error) {
+                console.error('❌ API Error:', error)
             }
         },
 
@@ -49,33 +46,23 @@ export const useHospitalStore = defineStore('hospital', {
             if (this.treatment_id) query.append('treatment_id', this.treatment_id)
             const config = useRuntimeConfig()
             const api = `${config.public.baseUrl}/hospital-listing?${query.toString()}`;
-            const { data, error } = await useFetch(api);
 
-            if (error.value) {
-                console.error('❌ API Error:', error.value)
-                return
+            try {
+                const data = await $fetch<any>(api);
+                this.hospitals = data.data ?? data
+                this.totalHospitals = data.total_hospitals ?? 0
+            } catch (error) {
+                console.error('❌ API Error:', error)
             }
-
-            if (data.value) {
-                this.hospitals = data.value.data ?? data.value
-                this.totalHospitals = data.value.total_hospitals ?? 0
-            }
-
         },
 
         // Load countries
         async loadCountries() {
-            const { data, error } = await useFetch(
-                'https://flyhospitals.dev/api/countries'
-            )
-
-            if (error.value) {
-                console.error('❌ API Error:', error.value)
-                return
-            }
-
-            if (data.value) {
-                this.countries = data.value.data ?? data.value
+            try {
+                const data = await $fetch<any>('https://flyhospitals.dev/api/countries');
+                this.countries = data.data ?? data
+            } catch (error) {
+                console.error('❌ API Error:', error)
             }
         },
 
@@ -86,23 +73,22 @@ export const useHospitalStore = defineStore('hospital', {
                 return
             }
 
-            const { data, error } = await useFetch(`https://flyhospitals.dev/api/countries/${countryId}/cities`)
-            if (error.value) return console.error(error.value)
-            this.cities = data.value.data ?? data.value
+            try {
+                const data = await $fetch<any>(`https://flyhospitals.dev/api/countries/${countryId}/cities`);
+                this.cities = data.data ?? data
+            } catch (error) {
+                console.error('❌ API Error:', error)
+            }
         },
 
         async loadprocedure() {
             const config = useRuntimeConfig()
             const api = `${config.public.baseUrl}/treatments`;
-            const { data, error } = await useFetch(api)
-
-            if (error.value) {
-                console.error('❌ API Error:', error.value)
-                return
-            }
-
-            if (data.value) {
-                this.procedure = data.value.data ?? data.value
+            try {
+                const data = await $fetch<any>(api);
+                this.procedure = data.data ?? data
+            } catch (error) {
+                console.error('❌ API Error:', error)
             }
         },
 
@@ -113,9 +99,12 @@ export const useHospitalStore = defineStore('hospital', {
             }
             const config = useRuntimeConfig()
             const api = `${config.public.baseUrl}/sub-treatments?parent_id=${procedureId}`;
-            const { data, error } = await useFetch(api)
-            if (error.value) return console.error(error.value)
-            this.subprocedure = data.value.data ?? data.value
+            try {
+                const data = await $fetch<any>(api);
+                this.subprocedure = data.data ?? data
+            } catch (error) {
+                console.error('❌ API Error:', error)
+            }
         },
     },
 })

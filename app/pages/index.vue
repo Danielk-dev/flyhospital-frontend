@@ -2,6 +2,8 @@
     <div>
         <!--=============== HERO / BANNER  ===============-->
         <HeroSection />
+		        <!--=============== HOW IT WORKS ===============-->
+        <HowItWorks />
 
         <!--=============== ABOUT  ===============-->
         <AboutSection />
@@ -9,23 +11,33 @@
         <!--=============== TREATMENT SERVICES ===============-->
         <TreatmentServices />
 
-        <!--=============== HOW IT WORKS ===============-->
-        <HowItWorks />
+
 
         <!--=============== TOP DESTINATIONS ===============-->
         <DestinationList />
+
          <!--=============== TOP FindPlan ===============-->
 		<FindPlan />
+
 		<!--=============== TOP GlobalHostpital ===============-->
 	     <GlobalHospital />
+
         <!--=============== EXPLORE TREATMENT ===============-->
         <TreatmentList />
 
         <!--=============== POPULAR HOSPITALS ===============-->
         <HospitalSection />
 
+		
+        <!--=============== Popular Hospitals =============== -->
+        <PopularHospitals />
+
+        <!--=============== Testimonials =============== -->
+        <Testimonials />
+
         <!--=============== BLOGS =============== -->
         <BlogList />
+
     </div>
 </template>
 
@@ -38,6 +50,9 @@ import TreatmentServices from '~/components/landingPage/TreatmentServices.vue';
 import FindPlan from '~/components/plans/FindPlan.vue';
 import { useGeneralStore } from '~/stores/general';
 import GlobalHospital from '~/components/globalhospital/GlobalHospital.vue';
+import HospitalSection from '~/components/hospital/HospitalSection.vue';
+import Testimonials from "@/components/Testimonial/index.vue";
+import PopularHospitals from "@/components/PopularHospitals/index.vue";
 
 const generalStore = useGeneralStore()
 

@@ -127,26 +127,37 @@ export const useFilterHospitalStore = defineStore('filterHospital', () => {
   const error = ref<string | null>(null);
 
   // Actions
-  async function fetchHospitals(countryslug: string, slug: string) {
+  async function fetchHospitals(countryslug: string, slug: string, category_id?: string, treatment_id?: string, clearData = false, appendData = false) {
     isLoading.value = true;
     error.value = null;
+    if (clearData) hospitals.value = []; // Clear only if explicitly requested
 
     try {
       const config = useRuntimeConfig()
-      const api = `${config.public.baseUrl}/filter-hospitals?countryslug=${countryslug}&slug=${slug}`
+      let api = `${config.public.baseUrl}/filter-hospitals?countryslug=${countryslug}&slug=${slug}`
+      
+      if (category_id) api += `&category_id=${category_id}`
+      if (treatment_id) api += `&treatment_id=${treatment_id}`
+      
       const response = await fetch(api);
       const data = await response.json();
 
-      console.log('my data: ', data);
-
       if (data.success) {
-        hospitals.value = data.data;
+        if (appendData) {
+          // Append data for load more
+          hospitals.value = [...hospitals.value, ...data.data];
+        } else {
+          // Replace data (normal navigation or filter change)
+          hospitals.value = data.data;
+        }
         totalHospitals.value = data.total_hospitals;
+        return data; // Return data for Nuxt 3 useAsyncData support
       } else {
         throw new Error('API request failed');
       }
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'An error occurred';
+      throw err; // Re-throw for useAsyncData to catch
     } finally {
       isLoading.value = false;
     }
