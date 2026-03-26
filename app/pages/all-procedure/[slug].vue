@@ -175,9 +175,9 @@ watch(fetchResult, (newResult) => {
 }, { immediate: true });
 
 // Reset store on unmount
-onUnmounted(() => {
-  Hotelstore.reset();
-});
+// onUnmounted(() => {
+//   Hotelstore.reset();
+// });
 
 // Load more hospitals (pagination)
 const loadMore = async () => {
