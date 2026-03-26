@@ -46,7 +46,7 @@
                 />
 
                 <div class="blog-content">
-                  <h3>{{ blog.title }}</h3>
+                  <h3>{{ truncateTitle(blog.title) }}</h3>
 
                   <p class="truncate-lines">
                     {{ stripHtml(blog.content) }}
@@ -132,7 +132,17 @@ const stripHtml = (html: string) => {
   if (!html) return ""
   const tmp = document.createElement("DIV")
   tmp.innerHTML = html
-  return tmp.textContent || tmp.innerText || ""
+  const text = tmp.textContent || tmp.innerText || ""
+  const words = text.split(" ")
+  if (words.length <= 10) return text
+  return words.slice(0, 10).join(" ") + "..."
+}
+
+const truncateTitle = (title: string) => {
+  if (!title) return ""
+  const words = title.split(" ")
+  if (words.length <= 4) return title
+  return words.slice(0, 4).join(" ") + "..."
 }
 </script>
 
