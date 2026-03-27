@@ -411,8 +411,9 @@ const fetchCountries = async () => {
           media: country.media,
           hospitals_count: Number(country.hospitals_count) || 0,
           country_code: country.country_code,
-        }))
-        .sort((a, b) => a.country_name.localeCompare(b.country_name));
+        }));
+
+        // .sort((a, b) => a.country_name.localeCompare(b.country_name));
     } else {
       throw new Error("Invalid data format");
     }
