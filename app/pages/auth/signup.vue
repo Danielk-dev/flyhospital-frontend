@@ -57,9 +57,22 @@
                                 </div>
                                 <div class="col-md-12">
                                     <label for="phone" class="form-label">Phone</label>
-                                    <div class="input-group phone-input-group">
-                                        <button class="btn dropdown-toggle" type="button">🇨🇦</button>
-                                        <input type="tel" class="form-control" id="phone">
+                                    <div class="phone-input-wrapper-new">
+                                        <CountrySelector
+                                            v-model="phoneDialCode"
+                                            default-country-code="AE"
+                                        />
+                                        <input
+                                            v-model="phone"
+                                            type="text"
+                                            class="form-control phone-input-field"
+                                            id="phone"
+                                            placeholder="Phone number"
+                                            inputmode="numeric"
+                                            pattern="[0-9]*"
+                                            oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+                                            maxlength="15"
+                                        >
                                     </div>
                                 </div>
                                 <div class="col-12"><label for="subject" class="form-label">Subject</label><input
@@ -94,6 +107,8 @@ definePageMeta({
 
 const selectedCountry = ref('')
 const selectedCity = ref('')
+const phone = ref('')
+const phoneDialCode = ref('+971')
 
 const countryOptions = computed(() => [
     { label: 'Select Country', value: '' },

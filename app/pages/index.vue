@@ -11,14 +11,22 @@
 
         <!--=============== TREATMENT SERVICES ===============-->
         <TreatmentServices />
+		 
+		 <!--=============== TOP DESTINATIONS ===============-->
+		 <DestinationList />
+
+
        <!--=============== TOP FindPlan ===============-->
 		<FindPlan />
 
 		<!--=============== TOP GlobalHostpital ===============-->
 	     <GlobalHospital />
+		
 		 <!--=============== EXPLORE TREATMENT ===============-->
-        <TreatmentList />
-        <!--=============== Popular Hospitals =============== -->
+		 <TreatmentList />
+
+        
+		 <!--=============== Popular Hospitals =============== -->
         <PopularHospitals />
 
 		<!--=============== Testimonials =============== -->
@@ -26,9 +34,8 @@
 
 		<!--=============== BLOGS =============== -->
         <BlogList />
-        <!--=============== TOP DESTINATIONS ===============-->
-        <!-- <DestinationList /> -->
-        <!--=============== POPULAR HOSPITALS ===============-->
+        
+        <!-- =============== POPULAR HOSPITALS =============== -->
         <!-- <HospitalSection /> -->
 
     </div>

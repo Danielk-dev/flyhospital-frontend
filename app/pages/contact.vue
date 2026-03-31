@@ -10,9 +10,9 @@
                                 <Icon name="mdi:envelope-outline"></Icon>
                                 <div>
                                     <h6>Email</h6>
-                                    <NuxtLink to="mailto:contact@flyhospitals.com">
+                                    <a href="mailto:contact@flyhospitals.com">
                                         contact@ClickHospitals.com
-                                    </NuxtLink>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -21,9 +21,9 @@
                                 <Icon name="mdi:telephone"></Icon>
                                 <div>
                                     <h6>Call us</h6>
-                                    <NuxtLink to="tel:+17344475890">
+                                    <a href="tel:+17344475890">
                                         +1(734)-447-5890
-                                    </NuxtLink>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -54,15 +54,23 @@
 
                                 <div class="col-md-6">
                                     <label for="phone" class="form-label">Phone</label>
-                                    <div class="input-group phone-input-group" data-flag-input-wrapper>
-                                        <input type="hidden" name="tour[pricing][phone_dial_code]"
-                                            data-flag-input-dial-code value="971">
-                                        <input type="hidden" name="tour[pricing][phone_country_code]"
-                                            data-flag-input-country-code value="ae">
-                                        <input v-model="form.phone" class="form-control field flag-input" type="text"
-                                            name="tour[pricing][phone_number]" data-flag-input placeholder="Phone"
-                                            data-error="phone" inputmode="numeric" pattern="[0-9]*"
-                                            oninput="this.value = this.value.replace(/[^0-9]/g, '');" maxlength="15">
+                                    <div class="phone-input-wrapper-new">
+                                        <CountrySelector
+                                            v-model="form.phoneDialCode"
+                                            default-country-code="AE"
+                                            @country-changed="onCountryChanged"
+                                        />
+                                        <input
+                                            v-model="form.phone"
+                                            type="text"
+                                            class="form-control phone-input-field"
+                                            id="phone"
+                                            placeholder="Phone number"
+                                            inputmode="numeric"
+                                            pattern="[0-9]*"
+                                            oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+                                            maxlength="15"
+                                        >
                                     </div>
                                 </div>
 
@@ -102,7 +110,8 @@
         </div>
     </main>
 </template>
-<script setup>
+<script setup lang="ts">
+import { reactive } from 'vue'
 import { useContactStore } from '~/stores/contact'
 
 const contactStore = useContactStore()
@@ -115,14 +124,27 @@ const form = reactive({
     name: '',
     email: '',
     phone: '',
+    phoneDialCode: '+971', // Country dial code
     subject: '',
     message: '',
     contact_category_id: '' // will hold category ID from API
 })
 
+// ✅ Handle country change
+const onCountryChanged = (country: any) => {
+    form.phoneDialCode = country.dialCode
+    console.log('Country changed to:', country.name, country.dialCode)
+}
+
 // ✅ Submit handler
 const handleSubmit = async () => {
-    const res = await contactStore.submitContact({ ...form }) // spread to avoid proxy issues
+    // Combine dial code and phone for the API
+    const submissionData = {
+        ...form,
+        phone: `${form.phoneDialCode}${form.phone}`
+    }
+    
+    const res = await contactStore.submitContact(submissionData)
 
     if (contactStore.success) {
         alert('Message sent successfully ✅')
@@ -131,6 +153,7 @@ const handleSubmit = async () => {
         form.name = ''
         form.email = ''
         form.phone = ''
+        form.phoneDialCode = '+971'
         form.subject = ''
         form.message = ''
         form.contact_category_id = ''

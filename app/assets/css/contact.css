@@ -86,11 +86,12 @@
     line-height: 160%;
     letter-spacing: 0px;
     border-radius: 8px;
-    border: 1px solid var(--fly-border-color);
+    border: 2px solid #d0d5dd;
     padding: 0.75rem 1rem;
     box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
     /* Subtle shadow */
     color: #565656;
+    transition: border-color 0.3s ease;
 }
 
 .form-control::placeholder {
@@ -109,12 +110,54 @@ textarea.form-control {
 }
 
 .phone-input-group .btn {
-    border: 1px solid var(--fly-border-color);
+    border: 2px solid #d0d5dd;
     background-color: #fff;
     border-right: none;
     padding: 0.75rem 1rem;
     box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
     border-radius: 8px 0 0 8px;
+}
+
+/* New Phone Input with Country Selector */
+.phone-input-wrapper-new {
+    display: flex;
+    align-items: stretch;
+    border: 2px solid #d0d5dd;
+    border-radius: 8px;
+    background-color: #fff;
+    transition: all 0.3s ease;
+    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+    overflow: visible; /* Allow dropdown to show */
+}
+
+.phone-input-wrapper-new:focus-within {
+    border-color: #053862;
+    box-shadow: 0 0 0 4px rgba(5, 56, 98, 0.1);
+}
+
+.phone-input-field {
+    flex: 1;
+    border: none !important;
+    border-left: 1px solid #d0d5dd !important;
+    border-radius: 0 !important;
+    padding: 0.75rem 1rem;
+    box-shadow: none !important;
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #2d2d2d;
+    background: transparent;
+}
+
+.phone-input-field:focus {
+    outline: none;
+}
+
+/* Responsive: Stack on mobile */
+@media (max-width: 576px) {
+    .phone-input-wrapper-new {
+        gap: 0.5rem;
+    }
 }
 
 .phone-input-group .form-control {
