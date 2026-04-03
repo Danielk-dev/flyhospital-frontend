@@ -71,6 +71,13 @@
         </button>
 
       </div>
+
+      <!-- View All Blogs Button -->
+      <div class="view-all-container mt-5 text-center">
+        <NuxtLink to="/blogs" class="btn btn-primary btn-lg px-5 py-3">
+          Show Blogs
+        </NuxtLink>
+      </div>
     </div>
   </section>
 </template>
