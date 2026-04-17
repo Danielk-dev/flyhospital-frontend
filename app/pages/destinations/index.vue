@@ -8,7 +8,7 @@
 
         <!-- Hospital Listings -->
         <div class="listings-header mb-4">
-            <h2>{{ destinations.length }} <span>Verified</span> Destinations in the World</h2>
+            <h2>{{ destinations.length }} <span>Destinations </span> in the World</h2>
             <p class="text-muted">
                 The ClickHospitals is based on data science algorithms, providing a trusted, transparent, and objective
                 comparison.

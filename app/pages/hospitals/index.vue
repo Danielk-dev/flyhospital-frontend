@@ -51,7 +51,7 @@
     <!-- Hospital Listings -->
     <div class="listings-header mb-4">
       <h2>
-        <span>{{ store.totalHospitals }} Verified</span> Hospitals in {{ locationText }}
+        <span>{{ store.totalHospitals }} </span> Hospitals <span> in {{ locationText }} </span> 
       </h2>
       <p class="text-muted">
         ClickHospitals uses data science algorithms to deliver a trusted, transparent, and objective comparison.
