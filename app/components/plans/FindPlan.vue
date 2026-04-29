@@ -17,7 +17,7 @@
           <div class="step-content">
             <h3>Search Our Directory</h3>
             <p>
-             Use the search bar at the top of the page to find the right hospital for your needs. Enter a hospital name, specialty, treatment, or location. You can also browse our directory to explore verified hospitals worldwide.
+             Use the search bar at the top of the page to find the right hospital for your needs. Enter a hospital name, specialty, treatment, or location. You can also browse our directory to explore  hospitals worldwide.
             </p>
           </div>
         </div>

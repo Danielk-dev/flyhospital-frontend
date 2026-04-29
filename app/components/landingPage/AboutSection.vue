@@ -19,7 +19,7 @@
             <div class="info-description">
                 <p>We designed ClickHospitals to simplify global medical discovery. Whether you're seeking advanced
                     procedure, lower costs, or expert care in another country, our platform connects you with
-                    verified
+                    
                     hospitals worldwide.</p>
                 <a href="#">Learn More</a>
             </div>

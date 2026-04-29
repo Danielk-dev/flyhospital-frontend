@@ -49,7 +49,7 @@
                     <h2>About ClickHospitals</h2>
                     <p>Your gateway to trusted hospitals around the world. ClickHospitals is a free global patient hub
                         that helps clients easily discover, compare, and access medical treatment across Oceania. We aim
-                        to simplify healthcare journeys by connecting patients with verified hospitals, treatments, and
+                        to simplify healthcare journeys by connecting patients with  hospitals, treatments, and
                         specialists no matter where they are. Whether you're searching for advanced philosophies,
                         specialized care, or reliable medical systems abroad, ClickHospitals gives you access to top-tier
                         facilities in various countries.</p>
@@ -204,7 +204,7 @@
                                 </svg>
                             </div>
                             <div>
-                                <h5>Verified Medical Centers</h5>
+                                <h5> Medical Centers</h5>
                                 <p class="heading">We partner with trusted, accredited hospitals.</p>
                                 <p>We provide you with comprehensive information including medical qualifications and
                                     facility standards.</p>
@@ -287,7 +287,7 @@
 
                             </div>
                             <div>
-                                <h5>Verified Information</h5>
+                                <h5>Google Api Given Information</h5>
                                 <p class="heading">Medical content you can trust.</p>
                                 <p>All medical content on ClickHospitals is reviewed by licensed professionals and based
                                     on globally recognized protocols.</p>
