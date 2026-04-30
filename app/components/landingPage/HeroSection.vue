@@ -3,11 +3,10 @@
     <div class="hero-layout">
       <div class="hero-text">
         <h1>
-          Find the Right Hospital Anywhere <span>in World.</span>
+         Quickly Find the Right Hospital, Wherever You Are  <span>in the World.</span>
         </h1>
         <p>
-          ClickHospitals helps you explore and connect with internationally accredited hospitals,
-          based on your procedure needs, budget, and destination.
+          Compare globally accredited hospitals based on your medical needs, location, and budget.
         </p>
 
         <!-- Search -->

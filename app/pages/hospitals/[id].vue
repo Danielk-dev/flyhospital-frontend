@@ -226,7 +226,7 @@
                                     <div class="accordion-body">
                                         <div class="staff-member" v-for="staff in treatment?.staff || []"
                                             :key="staff?.id">
-                                            <img :src="staff?.media?.[0]?.original_url || 'https://flyhospitals.dev/dumy.jpg'"
+                                            <img :src="staff?.media?.[0]?.original_url || 'https://admin.clickhospitals.com/dumy.jpg'"
                                                 :alt="staff?.name || 'Doctor'" loading="lazy"
                                                 :class="{ 'image-loading': !imageLoaded.staff[staff?.id] }"
                                                 @load="imageLoaded.staff[staff?.id] = true"

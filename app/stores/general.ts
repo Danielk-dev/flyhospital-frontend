@@ -13,6 +13,7 @@ export interface Treatments {
 
 export interface Destination {
   id: number
+  region_id: number
   name: string
   country_name?: string // API may return country_name instead of name
   description: string
@@ -20,6 +21,9 @@ export interface Destination {
   created_at?: string
   updated_at?: string
   slug?: string
+  secondary_image?: string
+  second_image?: string
+  hospitals_count?: number
 }
 
 export interface Hospital {
@@ -66,6 +70,10 @@ export interface Blog {
   slug?: string
   media?: Media[]
 }
+export interface Region {
+  id: number
+  name: string
+}
 
 export interface SubProcedure {
   id: number
@@ -97,6 +105,7 @@ interface GeneralState {
   treatments: Treatments[]
   subprocedures: Treatments[]
   destinations: Destination[]
+  regions: Region[]
   hospitals: Hospital[]
   loading: boolean
   error: string | null
@@ -109,6 +118,7 @@ interface GeneralState {
     blogs: number | null
     treatments: number | null
     destinations: number | null
+    regions: number | null
     hospitals: number | null
     subprocedures: number | null
   }
@@ -121,6 +131,7 @@ export const useGeneralStore = defineStore('general', {
     hospitals: [],
     blogs: [],
     subprocedures: [],
+    regions: [],
     loading: false,
     error: null,
     pagination: {
@@ -131,6 +142,7 @@ export const useGeneralStore = defineStore('general', {
     lastFetched: {
       treatments: null,
       destinations: null,
+      regions: null,
       hospitals: null,
       blogs: null,
       subprocedures: null,
@@ -138,7 +150,7 @@ export const useGeneralStore = defineStore('general', {
   }),
 
   getters: {
-    isStale: (state) => (key: 'treatments' | 'destinations' | 'hospitals' | 'blogs') => {
+    isStale: (state) => (key: 'treatments' | 'regions' | 'destinations' | 'hospitals' | 'blogs' | 'subprocedures') => {
       if (!state.lastFetched[key]) return true
       // Consider data stale after 1 hour
       const oneHour = 60 * 60 * 1000
@@ -167,6 +179,28 @@ export const useGeneralStore = defineStore('general', {
         this.lastFetched.treatments = Date.now()
       } catch (err: any) {
         this.error = err?.message ?? 'Failed to fetch treatments'
+      } finally {
+        this.loading = false
+      }
+    },
+    async fetchRegions(forceRefresh = false): Promise<void> {
+            if (!forceRefresh && this.regions.length > 0) {
+        return
+      }
+
+      try {
+        this.loading = true
+        this.error = null
+
+        const config = useRuntimeConfig()
+        const api = `${config.public.baseUrl}/region`
+
+        const res = await $fetch<{ data: Region[] }>(api)
+
+        this.regions = res.data ?? []
+  
+      } catch (err: any) {
+        this.error = err?.message ?? 'Failed to fetch regions'
       } finally {
         this.loading = false
       }

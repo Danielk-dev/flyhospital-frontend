@@ -22,7 +22,7 @@
               class="destination-card"
               :style="{ marginRight: (index === destinations.length -1 ? '0' : '10px') }"
             >
-              <img :src="destination.image_url ?? 'https://flyhospitals.dev/dumy.jpg'" 
+              <img :src="destination.image_url ?? 'https://admin.clickhospitals.com/dumy.jpg'" 
                    alt="Destination" 
                    loading="lazy"
                    :class="{ 'image-loading': !imageLoaded[destination.id] }"

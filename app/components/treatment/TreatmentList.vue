@@ -32,7 +32,7 @@
                 :to="`/subprocedure/${treatment.id}?name=${encodeURIComponent(treatment.name)}`"
               >
                 <img 
-                  :src="treatment.image_url ?? 'https://flyhospitals.dev/dumy.jpg'" 
+                  :src="treatment.image_url ?? 'https://admin.clickhospitals.com/dumy.jpg'" 
                   alt="Treatment" 
                   loading="lazy"
                   :class="{ 'image-loading': !imageLoaded[treatment.id] }"

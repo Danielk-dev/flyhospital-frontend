@@ -4,7 +4,7 @@
             <div>
                 <div class="card card-custom">
                     <img 
-                        :src="treatment.image_url??'https://flyhospitals.dev/dumy.jpg'" 
+                        :src="treatment.image_url??'https://admin.clickhospitals.com/dumy.jpg'" 
                         class="card-img-top card-img-top-custom" 
                         alt="Knee Replacement"
                         loading="lazy"

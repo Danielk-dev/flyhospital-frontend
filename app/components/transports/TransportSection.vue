@@ -78,22 +78,22 @@ const props = defineProps({
 
   taxiStandImage: {
     type: String,
-    default: "https://flyhospitals.dev/assets/img/taxi-stand.jpg"
+    default: "https://admin.clickhospitals.com/assets/img/taxi-stand.jpg"
   },
 
   airportImage: {
     type: String,
-    default: "https://flyhospitals.dev/assets/img/airport.jpg"
+    default: "https://admin.clickhospitals.com/assets/img/airport.jpg"
   },
 
   railwayImage: {
     type: String,
-    default: "https://flyhospitals.dev/assets/img/railway-station.jpg"
+    default: "https://admin.clickhospitals.com/assets/img/railway-station.jpg"
   },
 
   fallbackImage: {
     type: String,
-    default: "https://flyhospitals.dev/dumy.jpg"
+    default: "https://admin.clickhospitals.com/dumy.jpg"
   }
 })
 

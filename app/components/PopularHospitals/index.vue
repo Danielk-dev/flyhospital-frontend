@@ -106,7 +106,7 @@ const trackStyle = computed(() => ({
 const fetchHospitals = async () => {
   try {
     loading.value = true
-    const response = await fetch('https://flyhospitals.dev/api/hospitals')
+    const response = await fetch('https://admin.clickhospitals.com/api/hospitals')
     const data = await response.json()
     if (data.success) {
       hospitals.value = data.data

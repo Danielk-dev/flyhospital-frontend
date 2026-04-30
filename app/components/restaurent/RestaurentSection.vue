@@ -31,7 +31,7 @@
             class="hotel-card"
           >
             <img 
-              :src="restaurant.image_url ?? 'https://flyhospitals.dev/dumy.jpg'" 
+              :src="restaurant.image_url ?? 'https://admin.clickhospitals.com/dumy.jpg'" 
               :alt="restaurant.name" 
               loading="lazy"
               :class="{ 'image-loading': !imageLoaded[restaurant.id] }"

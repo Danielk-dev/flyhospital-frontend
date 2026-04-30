@@ -59,7 +59,7 @@ export const useHospitalStore = defineStore('hospital', {
         // Load countries
         async loadCountries() {
             try {
-                const data = await $fetch<any>('https://flyhospitals.dev/api/countries');
+                const data = await $fetch<any>('https://admin.clickhospitals.com/api/countries');
                 this.countries = data.data ?? data
             } catch (error) {
                 console.error('❌ API Error:', error)
@@ -74,7 +74,7 @@ export const useHospitalStore = defineStore('hospital', {
             }
 
             try {
-                const data = await $fetch<any>(`https://flyhospitals.dev/api/countries/${countryId}/cities`);
+                const data = await $fetch<any>(`https://admin.clickhospitals.com/api/countries/${countryId}/cities`);
                 this.cities = data.data ?? data
             } catch (error) {
                 console.error('❌ API Error:', error)

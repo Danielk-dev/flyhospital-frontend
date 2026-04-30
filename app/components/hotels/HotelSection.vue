@@ -31,7 +31,7 @@
             :key="index"
             class="hotel-card"
           >
-            <img :src="hotel.image_url ?? 'https://flyhospitals.dev/dumy.jpg'" :alt="hotel.name" />
+            <img :src="hotel.image_url ?? 'https://admin.clickhospitals.com/dumy.jpg'" :alt="hotel.name" />
             <div class="card-content">
               <h3>
                 {{ useTruncateText(hotel?.name || '', 20) }}
