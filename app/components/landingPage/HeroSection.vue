@@ -5,10 +5,7 @@
         <h1>
          Quickly Find the Right Hospital, Wherever You Are  <span>in the World.</span>
         </h1>
-        <p>
-          Compare globally accredited hospitals based on your medical needs, location, and budget.
-        </p>
-
+      
         <!-- Search -->
         <div class="search-container">
           <h3>Search hospitals by name</h3>
