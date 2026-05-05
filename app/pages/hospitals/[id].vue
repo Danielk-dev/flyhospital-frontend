@@ -250,7 +250,7 @@
 
                 <!-- Right Column: Sidebar -->
                 <div class="col-lg-4">
-                    <div class="card card-body sidebar-card">
+                    <div class="card card-body sidebar-card custom-fixed-sidebar">
                         <div class="map-placeholder mb-3" v-if="(hospital as any)?.image_urls?.[0]">
                             <img :src="(hospital as any).image_urls[0]" :alt="title" loading="lazy"
                                 :class="{ 'image-loading': !imageLoaded.sidebar }" @load="imageLoaded.sidebar = true"
@@ -293,9 +293,71 @@
                             </a>
                         </div>
                     </div>
+
+
+
+                    <div class="card card-body sidebar-card custom-fixed-sidebar ambulance-request-card">
+                        <div class="ambulance-card-header mb-4">
+                            <img src="~/assets/img/Background.png" alt="Ambulance request" class="ambulance-card-image" />
+                            <h5 class="ambulance-card-title">Request Ambulance Information from Hospital</h5>
+                        </div>
+
+                        <button type="button" class="btn btn-danger w-100" @click="showModal = true">Request Now</button>
+
+                        <p class="ambulance-disclaimer mt-3">
+                            Disclaimer: This form is provided for convenience only. We act solely as a service provider and will forward your request to the selected hospital on a best-effort basis. We do not guarantee a response, availability, or any outcome. For urgent or critical needs, please contact the hospital directly.
+                        </p>
+
+                        <div v-if="submittedAmbulanceRequest" class="alert alert-success ambulance-success" role="alert">
+                            Your request has been sent. The hospital will contact you shortly.
+                        </div>
+                    </div>
+
+                    <!-- Ambulance Request Modal -->
+                    <div class="modal fade" :class="{ show: showModal }" :style="{ display: showModal ? 'block' : 'none' }" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Request Ambulance</h5>
+                                    <button type="button" class="close" @click="showModal = false">
+                                        <span>&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form @submit.prevent="submitAmbulanceRequest">
+                                        <div class="form-group">
+                                            <label for="modal-name">Name</label>
+                                            <input id="modal-name" v-model="ambulanceRequest.name" type="text" class="form-control" placeholder="John" required />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="modal-phone">Phone</label>
+                                            <input id="modal-phone" v-model="ambulanceRequest.phone" type="tel" class="form-control" placeholder="123-456-7890" required />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="modal-pickup">Pickup Location</label>
+                                            <input id="modal-pickup" v-model="ambulanceRequest.pickup_location" type="text" class="form-control" placeholder="Enter pickup location" required />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="modal-dropoff">Dropoff Location</label>
+                                            <input id="modal-dropoff" v-model="ambulanceRequest.dropoff_location" type="text" class="form-control" placeholder="Enter dropoff location" required />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="modal-time">Preferred Time</label>
+                                            <input id="modal-time" v-model="ambulanceRequest.preferred_time" type="datetime-local" class="form-control" required />
+                                        </div>
+                                        <button type="submit" class="btn btn-danger w-100" :disabled="loading">Submit Request</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-if="showModal" class="modal-backdrop fade show" @click="showModal = false"></div>
+                    
                 </div>
 
-                <!--=============== POPULAR RESTAURENTS SECTION ===============-->
+                 </div>
+                 <div>
+                       <!--=============== POPULAR RESTAURENTS SECTION ===============-->
                 <LazyRestaurentSection id="restaurants" v-if="(hospital as any)?.restaurants?.length > 0"
                     :restaurants="(hospital as any).restaurants" />
 
@@ -307,7 +369,8 @@
                 <TransportSection id="how-to-get-there" title="How to get there"
                     description="Get convenient transport near the hospital."
                     v-if="(hospital as any)?.transports?.length > 0" :items="hospital.transports" />
-            </div>
+        
+                 </div>
         </template>
     </main>
 </template>
@@ -350,6 +413,47 @@ const imageLoaded = reactive({
     staff: {} as Record<number, boolean>,
     sidebar: false,
 })
+
+const ambulanceRequest = reactive({
+    name: '',
+    phone: '',
+    pickup_location: '',
+    dropoff_location: '',
+    preferred_time: ''
+})
+
+const showModal = ref(false)
+const loading = ref(false)
+const submittedAmbulanceRequest = ref(false)
+
+const submitAmbulanceRequest = async () => {
+    loading.value = true
+    try {
+        const requestData = { ...ambulanceRequest, hospital_id: hospitalId }
+        // Format preferred_time to Y-m-d H:i:s
+        if (requestData.preferred_time) {
+            requestData.preferred_time = requestData.preferred_time.replace('T', ' ') + ':00'
+        }
+        const response = await $fetch('https://admin.clickhospitals.com/api/store-ambulance-request', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        })
+        submittedAmbulanceRequest.value = true
+        showModal.value = false
+        // Reset form
+        Object.keys(ambulanceRequest).forEach(key => {
+            ambulanceRequest[key] = ''
+        })
+    } catch (error) {
+        console.error('Error submitting ambulance request:', error)
+        // Handle error, maybe show an alert
+    } finally {
+        loading.value = false
+    }
+}
 
 // ✅ Computed properties with safe access
 const title = computed(() => {
@@ -456,16 +560,132 @@ watch(() => (hospital.value as any)?.treatments, (treatments) => {
     border-color: none !important;
 }
 
-/* Image loading blur effect */
-.image-loading {
-    filter: blur(10px);
-    transition: filter 0.5s ease;
-    background-color: #e0e0e0;
-    background-image: linear-gradient(90deg, #e0e0e0 0%, #f5f5f5 50%, #e0e0e0 100%);
-    background-size: 200% 100%;
-    animation: shimmer 1.5s infinite;
+.ambulance-request-card {
+    padding: 1.5rem;
 }
 
+.ambulance-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.ambulance-card-image {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+}
+
+.ambulance-card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.ambulance-disclaimer {
+    font-size: 0.82rem;
+    color: #6c757d;
+    line-height: 1.5;
+    margin-bottom: 0;
+}
+
+.ambulance-success {
+    margin-top: 1rem;
+    border-radius: 0.75rem;
+    padding: 0.9rem 1rem;
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1040;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1050;
+    display: none;
+}
+
+.modal.show {
+    display: block;
+}
+
+.modal-dialog {
+    position: relative;
+    width: auto;
+    margin: 1.75rem auto;
+    max-width: 500px;
+}
+
+.modal-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 0.3rem;
+    outline: 0;
+}
+
+.modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 1px solid #dee2e6;
+    border-top-left-radius: calc(0.3rem - 1px);
+    border-top-right-radius: calc(0.3rem - 1px);
+}
+
+.modal-body .form-group {
+    margin-bottom: 1rem;
+}
+
+.modal-body label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.modal-body .form-control {
+    width: 100%;
+    border: 1px solid #d9d9d9;
+    border-radius: 0.7rem;
+    padding: 0.85rem 1rem;
+    font-size: 0.95rem;
+    color: #333;
+    background: #fff;
+}
+
+.close {
+    padding: 0;
+    background-color: transparent;
+    border: 0;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: 0.5;
+}
+
+.close:hover {
+    color: #000;
+    text-decoration: none;
+    opacity: 0.75;
+}
 img:not(.image-loading) {
     filter: blur(0);
     transition: filter 0.5s ease;
@@ -480,5 +700,4 @@ img:not(.image-loading) {
         background-position: 200% 0;
     }
 }
-
 </style>
