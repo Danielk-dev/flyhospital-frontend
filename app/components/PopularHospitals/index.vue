@@ -74,9 +74,8 @@
 
       <!-- View All Button -->
       <div class="text-center mt-5">
-        <button class="btn btn-outline-primary btn-view-all">
-          View all Hospitals
-        </button>
+         <NuxtLink :to="'/hospitals'" class="btn btn-outline-primary btn-view-all">View all Hospitals</NuxtLink>
+      
       </div>
     </div>
   </div>

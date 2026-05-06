@@ -16,9 +16,9 @@
             Discover top-notch hospitals around the globe offering exceptional medical treatments.<br />
             Explore your options for world-class healthcare wherever you are!
           </p>
-        <a href="https://clickhospitals.com/hospitals/" >
-  <button>View All Hospitals</button>
-</a>
+          <a href="https://clickhospitals.com/hospitals/" >
+            <button>View All Hospitals</button>
+          </a>
         </div>
 
       </div>

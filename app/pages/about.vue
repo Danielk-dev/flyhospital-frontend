@@ -10,27 +10,27 @@
     <div>
         <div class="container">
             <div class="row g-3">
-                <div class="col-6 col-md-3">
+                <!-- <div class="col-6 col-md-3">
                     <div class="stat-box">
                         <div class="stat-number">48059</div>
                         <div class="stat-label">Patients Served</div>
                     </div>
-                </div>
-                <div class="col-6 col-md-3">
+                </div> -->
+                <div class="col-4 col-md-4">
                     <div class="stat-box">
-                        <div class="stat-number">60+</div>
+                        <div class="stat-number">190+</div>
                         <div class="stat-label">Countries</div>
                     </div>
                 </div>
-                <div class="col-6 col-md-3">
+                <div class="col-4 col-md-4">
                     <div class="stat-box">
                         <div class="stat-number">5248</div>
                         <div class="stat-label">Reviews</div>
                     </div>
                 </div>
-                <div class="col-6 col-md-3">
+                <div class="col-4 col-md-4">
                     <div class="stat-box">
-                        <div class="stat-number">1025</div>
+                        <div class="stat-number">9156</div>
                         <div class="stat-label">Hospitals</div>
                     </div>
                 </div>

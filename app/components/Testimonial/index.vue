@@ -41,7 +41,7 @@
 
       </div>
 
-      <button class="btn btn-light mt-4">Add Review</button>
+      <!-- <button class="btn btn-light mt-4">Add Review</button> -->
 
     </div>
   </section>
