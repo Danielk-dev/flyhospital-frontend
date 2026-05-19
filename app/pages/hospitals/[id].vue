@@ -249,7 +249,10 @@
                 </div>
 
                 <!-- Right Column: Sidebar -->
+                 
                 <div class="col-lg-4">
+                    <!-- new div add -->
+                     <div class="custom-sticky">
                     <div class="card card-body sidebar-card custom-fixed-sidebar">
                         <div class="map-placeholder mb-3" v-if="(hospital as any)?.image_urls?.[0]">
                             <img :src="(hospital as any).image_urls[0]" :alt="title" loading="lazy"
@@ -352,7 +355,8 @@
                         </div>
                     </div>
                     <div v-if="showModal" class="modal-backdrop fade show" @click="showModal = false"></div>
-                    
+                    <!--  -->
+                    </div>
                 </div>
 
                  </div>
