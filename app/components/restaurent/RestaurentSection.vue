@@ -1,5 +1,5 @@
 <template>
-  <section class="popular-hotels-section">
+  <section class="popular-hotels-section" style="margin-top: 150px;">
     <div class="container">
       <div class="section-header">
         <h2>Explore Nearby Restaurants</h2>
