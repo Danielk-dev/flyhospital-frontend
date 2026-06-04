@@ -252,8 +252,8 @@
                  
                 <div class="col-lg-4">
                     <!-- new div add -->
-                     <div class="custom-sticky">
-                    <div class="card card-body sidebar-card custom-fixed-sidebar">
+                    <div class="custom-sticky">
+                    <div class="card card-body sidebar-card custom-fixed-sidebar" style="margin-bottom: 120px;">
                         <div class="map-placeholder mb-3" v-if="(hospital as any)?.image_urls?.[0]">
                             <img :src="(hospital as any).image_urls[0]" :alt="title" loading="lazy"
                                 :class="{ 'image-loading': !imageLoaded.sidebar }" @load="imageLoaded.sidebar = true"
@@ -299,8 +299,8 @@
 
 
 
-                    <div class="card card-body sidebar-card custom-fixed-sidebar ambulance-request-card">
-                        <div class="ambulance-card-header mb-4">
+                    <div class="card card-body sidebar-card custom-fixed-sidebar ambulance-request-card" >
+                        <div class="ambulance-card-header mb-4" style="margin-bottom: 120px;">
                             <img src="~/assets/img/Background.png" alt="Ambulance request" class="ambulance-card-image" />
                             <h5 class="ambulance-card-title">Request Ambulance Information from Hospital</h5>
                         </div>
@@ -566,6 +566,9 @@ watch(() => (hospital.value as any)?.treatments, (treatments) => {
 
 .ambulance-request-card {
     padding: 1.5rem;
+    position: sticky;
+    top: 20px;
+    gap: 20px;
 }
 
 .ambulance-card-header {
