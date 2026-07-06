@@ -1,5 +1,6 @@
 <template>
     <main>
+        <becomePartner />
         <!-- Hero Section -->
         <section class="fly-hero-section">
             <div class="container">
