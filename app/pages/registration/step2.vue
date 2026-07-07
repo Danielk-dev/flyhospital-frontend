@@ -350,7 +350,7 @@ function saveAndContinue() {
 .code {
   display: flex;
   justify-content: center;
-  gap: 40px;
+  gap: 20px;
   margin-bottom: 24px;
 }
 
