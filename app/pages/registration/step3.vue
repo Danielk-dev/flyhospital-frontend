@@ -291,8 +291,9 @@
 <script setup>
 import { ref, watch, onMounted } from "vue";
 
-const API_BASE = "http://flyhospital.test/api"; // apna base URL yahan set karo
 
+       const config = useRuntimeConfig()
+      const API_BASE = `${config.public.baseUrl}`
 const search = ref("");
 const selectedRadius = ref("5"); // ab numeric km value store hoga
 const locationLabel = ref("Detecting your location...");
