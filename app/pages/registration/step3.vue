@@ -130,7 +130,7 @@
                     }}
                   </option>
                   <option v-for="h in hospitals" :key="h.id" :value="h.id">
-                    {{ h.name }} ({{ Number(h.distance).toFixed(1) }} km
+                    {{ h.title }} ({{ Number(h.distance).toFixed(1) }} km
                     away)
                   </option>
                 </select>
