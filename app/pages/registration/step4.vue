@@ -266,7 +266,9 @@ function addPhotos(files) {
 function removePhoto(index) {
   photos.value.splice(index, 1);
 }
-const API_BASE = "http://flyhospital.test/api";
+
+       const config = useRuntimeConfig()
+      const API_BASE = `${config.public.baseUrl}`
 const registrationData = useState("registrationData");
 const isSubmitting = ref(false);
 const submitError = ref("");
@@ -294,7 +296,7 @@ async function saveAndContinue() {
       formData.append("service_photos[]", photo.file);
     });
 
-    const res = await fetch("http://flyhospital.test/api/vendors", {
+    const res = await fetch(`${API_BASE}/vendors`, {
       method: "POST",
       body: formData,
       headers: { Accept: "application/json" },
