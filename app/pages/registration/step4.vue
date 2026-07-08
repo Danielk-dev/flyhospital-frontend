@@ -185,18 +185,25 @@
           </section>
         </div>
 
+        <!-- Error Message -->
+        <div v-if="submitError" class="mp-error-message">
+          {{ submitError }}
+        </div>
+
         <!-- Footer -->
         <div class="mp-navigation-footer">
           <NuxtLink to="/registration/step3" class="mp-back-navigation">
             <span class="mp-back-arrow">&larr;</span> Back to Step 3
           </NuxtLink>
-          <NuxtLink
-            to="/registration/step5"
+          <button
+            type="button"
             class="mp-forward-button"
+            :disabled="isSubmitting"
             @click="saveAndContinue"
           >
-            Continue <span class="mp-forward-arrow">&rarr;</span>
-          </NuxtLink>
+            {{ isSubmitting ? "Submitting..." : "Submit Form" }}
+            <span class="mp-forward-arrow">&rarr;</span>
+          </button>
         </div>
       </div>
     </div>
@@ -259,10 +266,59 @@ function addPhotos(files) {
 function removePhoto(index) {
   photos.value.splice(index, 1);
 }
-// const registrationData = useState('registrationData') function saveAndContinue()
-// { registrationData.value.media = { logoFile: logoFile.value, // File object —
-// baad mein FormData se bhejna hoga photos: photos.value, // File objects ka array
-// } }
+const API_BASE = "http://flyhospital.test/api";
+const registrationData = useState("registrationData");
+const isSubmitting = ref(false);
+const submitError = ref("");
+
+async function saveAndContinue() {
+  isSubmitting.value = true;
+  submitError.value = "";
+
+  try {
+    const personal = registrationData.value.personalInfo || {};
+    const facility = registrationData.value.facility || {};
+
+    const formData = new FormData();
+    formData.append("name", personal.fullName || "");
+    formData.append("email", personal.email || "");
+    formData.append("phone", personal.phone || "");
+    formData.append("business_type", personal.businessType || "");
+    formData.append("hospital_id", facility.hospital_id || "");
+
+    if (logoFile.value) {
+      formData.append("business_logo", logoFile.value);
+    }
+
+    photos.value.forEach((photo) => {
+      formData.append("service_photos[]", photo.file);
+    });
+
+    const res = await fetch("http://flyhospital.test/api/vendors", {
+      method: "POST",
+      body: formData,
+      headers: { Accept: "application/json" },
+    });
+
+    const json = await res.json();
+
+    if (!res.ok || !json.success) {
+      submitError.value = json.errors
+        ? Object.values(json.errors).flat().join(", ")
+        : (json.message || "Submission failed.");
+      console.error(json);
+      return;
+    }
+
+    await navigateTo("/registration/step6");
+  } catch (e) {
+    submitError.value = "Network error while submitting form";
+    console.error(e);
+  } finally {
+    isSubmitting.value = false;
+  }
+}
+
 </script>
 <style scoped>
 * {
@@ -619,6 +675,17 @@ function removePhoto(index) {
 
 .mp-thumbnail-item:hover .mp-thumbnail-remove {
   opacity: 1;
+}
+
+/* ===== ERROR MESSAGE ===== */
+.mp-error-message {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-top: 16px;
+  font-size: 13px;
 }
 
 /* ===== FOOTER ===== */

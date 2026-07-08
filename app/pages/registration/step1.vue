@@ -107,7 +107,7 @@
 
             <!-- Continue Button -->
             <NuxtLink
-              to="/registration/step2"
+              to="/registration/step3"
               class="btn-continue"
               @click="saveAndContinue"
             >

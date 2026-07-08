@@ -66,8 +66,8 @@
               <h2>Service Reach</h2>
               <p>
                 Select the maximum distance from your facility that you can
-                comfortably serve. This determines which hospitals and patients
-                can find you.
+                comfortably serve. This determines which hospitals and
+                patients can find you.
               </p>
 
               <div class="rx-distance-choices">
@@ -99,6 +99,55 @@
 
             <!-- Right: Radius Visualization -->
             <div class="rx-visual-display">
+              <!-- 🔽 Hospital selection dropdown -->
+              <div
+                class="rx-hospital-select-wrapper"
+                style="margin-bottom: 14px"
+              >
+                <label
+                  style="
+                    font-size: 12.5px;
+                    font-weight: 600;
+                    color: #344054;
+                    display: block;
+                    margin-bottom: 6px;
+                  "
+                >
+                  Select Hospital
+                </label>
+                <select
+                  v-model="selectedHospitalId"
+                  class="form-input"
+                  :disabled="isLoadingHospitals || !hospitals.length"
+                >
+                  <option :value="null" disabled>
+                    {{
+                      isLoadingHospitals
+                        ? "Loading hospitals..."
+                        : hospitals.length
+                          ? "Choose a hospital"
+                          : "No hospitals found"
+                    }}
+                  </option>
+                  <option v-for="h in hospitals" :key="h.id" :value="h.id">
+                    {{ h.name }} ({{ Number(h.distance).toFixed(1) }} km
+                    away)
+                  </option>
+                </select>
+                <p
+                  v-if="locationError"
+                  style="color: #d92d20; font-size: 12px; margin-top: 6px"
+                >
+                  {{ locationError }}
+                </p>
+                <p
+                  v-if="hospitalError"
+                  style="color: #d92d20; font-size: 12px; margin-top: 6px"
+                >
+                  {{ hospitalError }}
+                </p>
+              </div>
+
               <div class="rx-display-header">
                 <div>
                   <h3>Radius Visualization</h3>
@@ -172,20 +221,32 @@
                   </g>
                 </svg>
 
-                <div class="rx-map-pin-label" style="top: 128px; left: 72px">
+                <div
+                  class="rx-map-pin-label"
+                  style="top: 128px; left: 72px"
+                >
                   St. Jude Medical
                 </div>
-                <div class="rx-map-pin-label" style="top: 96px; left: 250px">
+                <div
+                  class="rx-map-pin-label"
+                  style="top: 96px; left: 250px"
+                >
                   Presbyterian Hub
                 </div>
 
                 <div class="rx-map-key">
                   <div class="rx-key-row">
-                    <span class="rx-key-dot" style="background: #101828"></span>
+                    <span
+                      class="rx-key-dot"
+                      style="background: #101828"
+                    ></span>
                     Your Location
                   </div>
                   <div class="rx-key-row">
-                    <span class="rx-key-dot" style="background: #2563eb"></span>
+                    <span
+                      class="rx-key-dot"
+                      style="background: #2563eb"
+                    ></span>
                     Partner Hospitals
                   </div>
                   <div class="rx-key-row">
@@ -211,8 +272,8 @@
 
         <!-- Footer -->
         <div class="rx-action-footer">
-          <NuxtLink to="/registration/step2" class="rx-nav-back">
-            <span class="arrow-left">&larr;</span> Back to Step 2
+          <NuxtLink to="/registration/step1" class="rx-nav-back">
+            <span class="arrow-left">&larr;</span> Back to Step 1
           </NuxtLink>
           <NuxtLink
             to="/registration/step4"
@@ -228,28 +289,105 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch, onMounted } from "vue";
+
+const API_BASE = "http://flyhospital.test/api"; // apna base URL yahan set karo
 
 const search = ref("");
-const selectedRadius = ref("1km");
-const locationLabel = ref("Central Medical Plaza, New York");
-const hospitalsFound = ref(4);
+const selectedRadius = ref("5"); // ab numeric km value store hoga
+const locationLabel = ref("Detecting your location...");
+const hospitalsFound = ref(0);
+
+const userLat = ref(null);
+const userLng = ref(null);
+const locationError = ref("");
+
+const hospitals = ref([]);
+const selectedHospitalId = ref(null);
+const isLoadingHospitals = ref(false);
+const hospitalError = ref("");
 
 const radiusOptions = [
-  { label: "Within 1 km", value: "1km" },
-  { label: "Within 3 km", value: "3km" },
-  { label: "Within 5 km", value: "5km" },
-  { label: "Within 20 km", value: "20km" },
-  { label: "Within 25 km", value: "25km" },
+  { label: "Within 1 km", value: "1" },
+  { label: "Within 3 km", value: "3" },
+  { label: "Within 5 km", value: "5" },
+  { label: "Within 20 km", value: "20" },
+  { label: "Within 25 km", value: "25" },
 ];
 
 const registrationData = useState("registrationData");
 
+// 1. Get user's GPS location on mount
+onMounted(() => {
+  if (!navigator.geolocation) {
+    locationError.value = "Geolocation not supported by your browser.";
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      userLat.value = position.coords.latitude;
+      userLng.value = position.coords.longitude;
+      locationLabel.value = `Lat: ${userLat.value.toFixed(4)}, Lng: ${userLng.value.toFixed(4)}`;
+      fetchNearbyHospitals();
+    },
+    (err) => {
+      locationError.value =
+        "Location access denied. Please enable location to continue.";
+      console.error(err);
+    },
+    { enableHighAccuracy: true, timeout: 10000 },
+  );
+});
+
+// 2. Whenever radius changes, refetch
+watch(selectedRadius, () => {
+  if (userLat.value && userLng.value) {
+    fetchNearbyHospitals();
+  }
+});
+
+// 3. Fetch nearby hospitals from backend
+async function fetchNearbyHospitals() {
+  isLoadingHospitals.value = true;
+  hospitalError.value = "";
+  selectedHospitalId.value = null;
+
+  try {
+    const params = new URLSearchParams({
+      latitude: userLat.value,
+      longitude: userLng.value,
+      radius: selectedRadius.value,
+    });
+
+    const res = await fetch(`${API_BASE}/hospitals/nearby?${params}`);
+    const json = await res.json();
+
+    if (json.success) {
+      hospitals.value = json.data;
+      hospitalsFound.value = json.data.length;
+    } else {
+      hospitalError.value = json.message || "Failed to fetch hospitals";
+    }
+  } catch (e) {
+    hospitalError.value = "Network error while fetching hospitals";
+    console.error(e);
+  } finally {
+    isLoadingHospitals.value = false;
+  }
+}
+
 function saveAndContinue() {
+  const selectedHospital = hospitals.value.find(
+    (h) => h.id === selectedHospitalId.value,
+  );
+
   registrationData.value.facility = {
-    search: search.value,
+    hospital_id: selectedHospitalId.value,
+    hospital_name: selectedHospital?.name ?? null,
+    latitude: userLat.value,
+    longitude: userLng.value,
     selectedRadius: selectedRadius.value,
-    locationLabel: locationLabel.value,
     hospitalsFound: hospitalsFound.value,
   };
 }
