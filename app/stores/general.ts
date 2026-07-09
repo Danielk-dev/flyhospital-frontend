@@ -147,7 +147,7 @@ export const useGeneralStore = defineStore('general', {
   },
 
   actions: {
-    async fetchTreatments(forceRefresh = false): Promise<void> {
+    async fetchTreatments(forceRefresh = false, showLoader = true): Promise<void> {
       // If data exists and not forcing refresh, skip
       // Data will only refresh on hard refresh (F5) which clears the store
       if (!forceRefresh && this.treatments.length > 0) {
@@ -155,7 +155,7 @@ export const useGeneralStore = defineStore('general', {
       }
 
       try {
-        this.loading = true
+        if (showLoader) this.loading = true
         this.error = null
 
         const config = useRuntimeConfig()
@@ -168,11 +168,11 @@ export const useGeneralStore = defineStore('general', {
       } catch (err: any) {
         this.error = err?.message ?? 'Failed to fetch treatments'
       } finally {
-        this.loading = false
+        if (showLoader) this.loading = false
       }
     },
 
-    async fetchDestination(forceRefresh = false): Promise<void> {
+    async fetchDestination(forceRefresh = false, showLoader = true): Promise<void> {
       // If data exists and not forcing refresh, skip
       // Data will only refresh on hard refresh (F5) which clears the store
       if (!forceRefresh && this.destinations.length > 0) {
@@ -180,7 +180,7 @@ export const useGeneralStore = defineStore('general', {
       }
 
       try {
-        this.loading = true
+        if (showLoader) this.loading = true
         this.error = null
 
         const config = useRuntimeConfig()
@@ -193,18 +193,18 @@ export const useGeneralStore = defineStore('general', {
       } catch (err: any) {
         this.error = err?.message ?? 'Failed to fetch destinations'
       } finally {
-        this.loading = false
+        if (showLoader) this.loading = false
       }
     },
 
-    async fetchHospitals(forceRefresh = false): Promise<void> {
+    async fetchHospitals(forceRefresh = false, showLoader = true): Promise<void> {
       // If data exists and not forcing refresh, skip
       if (!forceRefresh && this.hospitals.length > 0) {
         return
       }
 
       try {
-        this.loading = true
+        if (showLoader) this.loading = true
         this.error = null
 
         const config = useRuntimeConfig()
@@ -217,13 +217,13 @@ export const useGeneralStore = defineStore('general', {
       } catch (err: any) {
         this.error = err?.message ?? 'Failed to fetch hospitals'
       } finally {
-        this.loading = false
+        if (showLoader) this.loading = false
       }
     },
 
-    async fetchBlogs(page = 1): Promise<void> {
+    async fetchBlogs(page = 1, showLoader = true): Promise<void> {
       try {
-        this.loading = true
+        if (showLoader) this.loading = true
         this.error = null
 
         const config = useRuntimeConfig()
@@ -243,13 +243,13 @@ export const useGeneralStore = defineStore('general', {
       } catch (err: any) {
         this.error = err?.message ?? 'Failed to fetch blogs'
       } finally {
-        this.loading = false
+        if (showLoader) this.loading = false
       }
     },
 
-    async fetchSubProcedures(treatmentId: string | number): Promise<void> {
+    async fetchSubProcedures(treatmentId: string | number, showLoader = true): Promise<void> {
       try {
-        this.loading = true
+        if (showLoader) this.loading = true
         this.error = null
 
         const config = useRuntimeConfig()
@@ -261,7 +261,7 @@ export const useGeneralStore = defineStore('general', {
       } catch (err: any) {
         this.error = err?.message ?? 'Failed to fetch subprocedures'
       } finally {
-        this.loading = false
+        if (showLoader) this.loading = false
       }
     },
 
@@ -280,17 +280,16 @@ export const useGeneralStore = defineStore('general', {
         subprocedures: null,
       }
       await Promise.all([
-        this.fetchTreatments(true),
-        this.fetchDestination(true),
-        this.fetchHospitals(true),
-        this.fetchBlogs(1),
-        this.fetchSubProcedures(1),
+        this.fetchTreatments(true, true),
+        this.fetchDestination(true, true),
+        this.fetchHospitals(true, true),
+        this.fetchBlogs(1, true),
+        this.fetchSubProcedures(1, true),
       ])
     },
-
-    async fetchBlogById(id: string): Promise<Blog | null> {
+    async fetchBlogById(id: string, showLoader = true): Promise<Blog | null> {
       try {
-        this.loading = true
+        if (showLoader) this.loading = true
         this.error = null
 
         const config = useRuntimeConfig()
@@ -303,7 +302,7 @@ export const useGeneralStore = defineStore('general', {
         this.error = err?.message ?? 'Failed to fetch blog details'
         return null
       } finally {
-        this.loading = false
+        if (showLoader) this.loading = false
       }
     },
   },
