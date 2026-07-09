@@ -138,16 +138,23 @@ const store = useGeneralStore()
 const imageLoaded = ref(false)
 const isMenuOpen = ref(false)
 
-// Fetch data
-if (store.treatments.length === 0) {
-  await useAsyncData('treatments', () => store.fetchTreatments())
-}
-if (store.destinations.length === 0) {
-  await useAsyncData('destinations', () => store.fetchDestination())
-}
-
 const treatments = computed(() => store.treatments)
 const destinations = computed(() => store.destinations)
+
+// Load nav dropdown data on client after initial render to avoid blocking SSR
+onMounted(() => {
+  if (store.treatments.length === 0) {
+    store.fetchTreatments(false, false).catch((err) => {
+      console.error('Failed to load treatments (header):', err)
+    })
+  }
+
+  if (store.destinations.length === 0) {
+    store.fetchDestination(false, false).catch((err) => {
+      console.error('Failed to load destinations (header):', err)
+    })
+  }
+})
 
 // Toggle menu
 function toggleMenu() {
