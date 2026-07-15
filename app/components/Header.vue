@@ -389,7 +389,7 @@ const subTreatmentsData = ref<Record<number, CityItem[]>>({});
 const fetchCountries = async () => {
   try {
     loading.value = true;
-    const response = await fetch("https://flyhospitals.dev/api/destinations");
+    const response = await fetch("https://admin.clickhospitals.com/api/destinations");
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -403,7 +403,7 @@ const fetchCountries = async () => {
     if (result.status && Array.isArray(result.data)) {
       // Filter active countries
       countries.value = result.data
-        .filter((country: any) => country.country_status === "1")
+        .filter((country: any) => country.country_status == "1")
         .map((country: any) => ({
           id: Number(country.id),
           country_name: String(country.country_name),
@@ -568,9 +568,9 @@ const handleImageError = (event: Event) => {
 };
 
 // Fetch data on mount
-onMounted(() => {
-  fetchCountries();
-  fetchMainTreatments();
+onMounted( async () => {
+ await fetchCountries();
+ await fetchMainTreatments();
   checkMobile();
   window.addEventListener("resize", checkMobile);
 });

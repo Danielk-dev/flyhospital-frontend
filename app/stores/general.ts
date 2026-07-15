@@ -23,7 +23,7 @@ export interface Destination {
   slug?: string
   secondary_image?: string
   second_image?: string
-  hospitals_count?: number
+  hospitals_count?: string | number // Optional, as it may not always be present
 }
 
 export interface Hospital {

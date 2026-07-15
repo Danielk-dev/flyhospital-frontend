@@ -137,6 +137,11 @@ const handleImageError = (event: Event) => {
 
 const stripHtml = (html: string) => {
   if (!html) return ""
+
+  if (process.server) {
+    return html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim()
+  }
+
   const tmp = document.createElement("DIV")
   tmp.innerHTML = html
   const text = tmp.textContent || tmp.innerText || ""
