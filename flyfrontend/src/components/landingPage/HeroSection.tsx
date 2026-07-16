@@ -6,7 +6,24 @@ import { useHospitalStore } from '@/stores/hospital';
 
 export default function HeroSection() {
 	const router = useRouter();
-	const store = useHospitalStore();
+	const loadCountries = useHospitalStore((s) => s.loadCountries);
+	const loadprocedure = useHospitalStore((s) => s.loadprocedure);
+	const loadCities = useHospitalStore((s) => s.loadCities);
+	const loadSubprocedure = useHospitalStore((s) => s.loadSubprocedure);
+	const countries = useHospitalStore((s) => s.countries);
+	const cities = useHospitalStore((s) => s.cities);
+	const procedure = useHospitalStore((s) => s.procedure);
+	const subprocedure = useHospitalStore((s) => s.subprocedure);
+	const search = useHospitalStore((s) => s.search);
+	const country_id = useHospitalStore((s) => s.country_id);
+	const city_id = useHospitalStore((s) => s.city_id);
+	const category_id = useHospitalStore((s) => s.category_id);
+	const treatment_id = useHospitalStore((s) => s.treatment_id);
+	const setSearch = useHospitalStore((s) => s.setSearch);
+	const setCountryId = useHospitalStore((s) => s.setCountryId);
+	const setCityId = useHospitalStore((s) => s.setCityId);
+	const setCategoryId = useHospitalStore((s) => s.setCategoryId);
+	const setTreatmentId = useHospitalStore((s) => s.setTreatmentId);
 	const [showTreatmentModal, setShowTreatmentModal] = useState(false);
 	const [showDestinationModal, setShowDestinationModal] = useState(false);
 	const [imageLoaded, setImageLoaded] = useState(false);

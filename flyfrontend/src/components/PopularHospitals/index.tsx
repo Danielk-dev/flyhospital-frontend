@@ -1,23 +1,14 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { apiFetch } from '@/lib/api';
+import { useGeneralStore } from '@/stores/general';
 import { useSlider } from '@/hooks/useSlider';
 import { getImageUrl } from '@/lib/helpers';
-import type { Hospital } from '@/lib/types';
 
 export default function PopularHospitals() {
-	const [hospitals, setHospitals] = useState<Hospital[]>([]);
-	const [loading, setLoading] = useState(true);
+	const hospitals = useGeneralStore((s) => s.hospitals);
+	const loading = useGeneralStore((s) => s.loading);
 	const { currentIndex, slidesPerView, maxIndex, prevSlide, nextSlide } = useSlider(hospitals.length);
-
-	useEffect(() => {
-		apiFetch<{ data?: Hospital[] }>('hospitals')
-			.then((res) => setHospitals(res.data ?? []))
-			.catch(() => setHospitals([]))
-			.finally(() => setLoading(false));
-	}, []);
 
 	return (
 		<section className="popular-hospitals-section">
@@ -26,7 +17,9 @@ export default function PopularHospitals() {
 					<h2>Popular Hospitals</h2>
 					<p>Top-rated hospitals trusted by patients worldwide.</p>
 				</div>
-				{loading ? <div className="text-center py-4">Loading...</div> : (
+				{loading && hospitals.length === 0 ? (
+					<div className="text-center py-4">Loading...</div>
+				) : (
 					<div className="slider-container">
 						<button className="slider-arrow prev-arrow" onClick={prevSlide} disabled={currentIndex === 0}>&#10094;</button>
 						<div className="slider-wrapper">
