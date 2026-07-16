@@ -1,0 +1,345 @@
+/* Filter Section */
+.filter-tab {
+    text-decoration: none;
+    color: #6c757d;
+    padding: 0.5rem 1rem;
+    margin-right: 1rem;
+    font-weight: 500;
+
+}
+
+.filter-tab.active {
+    color: #0d6efd;
+    border-bottom-color: #0d6efd;
+}
+
+/* Wrapper styling */
+.filter-section {
+    padding: 20px;
+    border-radius: 8px;
+    font-family: 'Manrope', sans-serif;
+}
+
+/* Input group (search input with icon) */
+.input-group{
+    border: 1px solid rgb(209, 213, 219) !important;
+    border-radius: 6px;
+}
+.input-group span{
+    border: none !important;
+}
+.input-group input{
+    border: none !important;
+}
+.input-group-text {
+    border-right: 0;
+    background: transparent;
+    border: 1px solid #D4D4D4;
+    border-radius: 6px 0 0 6px;
+}
+
+.input-group .form-control {
+    font-family: Inter Tight;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 120%;
+    letter-spacing: 0px;
+    border-left: 0;
+    border: 1px solid #ccc;
+    border-radius: 0 6px 6px 0;
+    height: 48px;
+    color: #686868;
+}
+
+/* Select dropdowns */
+.form-select {
+    font-family: Inter Tight;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 120%;
+    letter-spacing: 0px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    height: 48px;
+    font-size: 14px;
+    border: 1px solid rgba(212, 212, 212, 1) !important;
+    border-radius: 6px;
+}
+
+/* Search button */
+.search-btn-icon {
+    background-color: #053862;
+    /* Deep blue */
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 15px 24px;
+    font-family: Inter Tight;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 100%;
+    letter-spacing: 0px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.search-btn-icon i {
+    font-size: 16px;
+    width: 18px;
+    height: 18px;
+}
+
+.search-btn-icon:hover {
+    background-color: #032e54;
+    cursor: pointer;
+}
+
+
+/* Advanced Search */
+.advanced-search-link {
+    display: inline-flex;
+    align-items: center;
+    font-family: Inter Tight;
+    font-size: 16px;
+    line-height: 120%;
+    letter-spacing: 0px;
+    color: #053862;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.advanced-search-link i {
+    width: 21px;
+    height: 21px;
+    margin-right: 5px;
+    font-size: 16px;
+}
+
+/* Responsive Tweaks */
+@media (max-width: 768px) {
+    .filter-section .row {
+        flex-direction: column;
+    }
+
+    .filter-section .col-lg-4,
+    .filter-section .col-lg-3,
+    .filter-section .col-lg-2 {
+        width: 100%;
+    }
+
+    .search-btn {
+        margin-top: 10px;
+    }
+}
+
+/* Listings Section */
+.listings-header h2 {
+    font-family: Inter Tight;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 120%;
+    letter-spacing: 0px;
+    color: #000;
+    margin-bottom: 15px;
+}
+
+.listings-header span {
+    color: #053862;
+}
+
+.listings-header p {
+    font-family: Inter Tight;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 160%;
+    letter-spacing: 0px;
+    color: #6c757d;
+    max-width: 1000px;
+}
+
+/* Hospital Card */
+.hospital-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+}
+
+.hospital-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.hospital-card .card-title {
+    font-family: INter Tight;
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 100%;
+    letter-spacing: 0px;
+    margin-bottom: 0.5rem;
+    color: #053862;
+}
+
+.hospital-card .location {
+    font-family: Inter Tight;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 0px;
+    letter-spacing: 0px;
+    color: #737373;
+    margin-bottom: 1rem;
+}
+
+.hospital-card .location i {
+    width: 16px;
+    height: 16px;
+    color: #053862;
+    margin-right: 0.3rem;
+}
+
+.hospital-card .description {
+    font-family: Manrope;
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: 0px;
+    color: #565656;
+}
+
+.hospital-card .description a {
+    text-decoration: none;
+    font-weight: 500;
+    color: #053862;
+}
+
+.info-buttons .btn {
+    display: flex;
+    align-items: center;
+    margin-right: 0.5rem;
+    background-color: rgba(0, 61, 111, 0.1);
+    font-family: Inter Tight;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 120%;
+    letter-spacing: 0px;
+    padding: 6px 12px;
+    border: none;
+    color: #4a5568;
+}
+
+.hospital-card.rating {
+    font-family: Inter Tight;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 100%;
+    letter-spacing: 0px;
+    color: #053862;
+}
+
+.hospital-card .review {
+    font-family: Inter Tight;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 0px;
+}
+
+.rating .stars {
+    font-size: 1.1rem;
+}
+
+.treatment-title {
+    font-family: Inter Tight;
+    font-weight: 500;
+    font-size: 16px;
+    color: #565656;
+    line-height: 100%;
+    letter-spacing: 0px;
+}
+
+.treatment-list li {
+    font-family: Inter Tight;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 120%;
+    letter-spacing: 0px;
+    color: #343434;
+    margin-bottom: 0.5rem;
+}
+
+.treatment-list i {
+    width: 20px;
+    height: 20px;
+    color: #219679;
+    /* Bootstrap success green */
+    font-size: 25px;
+    margin-right: 0.75rem;
+}
+
+.details-btn {
+    background-color: #053862;
+    padding: 12px 20px;
+    font-family: Inter Tight;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 0px;
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+    .border-start-md {
+        border-left: 1px solid #e0e0e0;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .hospital-card .card-body {
+        padding-top: 0;
+    }
+
+    .hospital-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+}
+
+@media (max-width: 576px) {
+    .listings-header h2 {
+        text-align: center !important;
+        font-size: 35px !important;
+    }
+
+    .listings-header p {
+        font-size: 15px !important;
+    }
+
+    .info-buttons .btn {
+        margin-right: 3px !important;
+        padding: 5px 7px;
+    }
+}
+
+.img-fit {
+    width: 100%;
+    /* take full container width */
+    height: 100%;
+    /* take full container height */
+    object-fit: cover;
+    /* crop if needed */
+}
+
+.img-contain {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* show full image with empty space if needed */
+    background: #fff;
+    /* optional background */
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}

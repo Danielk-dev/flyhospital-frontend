@@ -1,0 +1,406 @@
+/* Hero Section */
+.fly-hero-content h1 {
+    font-family: Inter Tight;
+    font-weight: 700;
+    font-size: 60px;
+    color: var(--fly-text-primary);
+    line-height: 120%;
+    letter-spacing: 0px;
+    margin-bottom: 1.5rem;
+}
+
+.fly-hero-content p {
+    font-family: Inter Tight;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 160%;
+    letter-spacing: 0px;
+    color: var(--fly-text-secondary);
+    margin-bottom: 2rem;
+}
+
+.fly-hero-content .fly-btn-primary {
+    font-family: Inter Tight;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 100%;
+    letter-spacing: 0px;
+    background-color: #053862;
+    border-color: #053862;
+    border-radius: 6px;
+    padding: 13px 25px;
+    max-width: 330px;
+    width: 100%;
+}
+
+/* Partners Section */
+.fly-partners-section {
+    padding: 4rem 0;
+    border-top: 1px solid var(--fly-border-color);
+}
+
+.fly-partners-section h3 {
+    font-family: Inter Tight;
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 120%;
+    letter-spacing: 0px;
+    color: var(--fly-text-primary);
+    margin-bottom: 2.5rem;
+    text-align: center;
+}
+
+.fly-logo-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    align-items: center;
+    gap: 4rem;
+}
+
+.fly-logo-grid img {
+    height: 35px;
+    object-fit: contain;
+    flex: 1 1 calc(20% - 4rem);
+    max-width: calc(20% - 4rem);
+}
+
+/* Features Section */
+.fly-features-section {
+    padding: 60px 0;
+    background-color: #F7F7F7;
+    text-align: center;
+}
+
+.fly-features-section h2 {
+    font-family: Inter Tight;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 120%;
+    letter-spacing: 0px;
+    color: var(--fly-text-primary);
+    margin-bottom: 3.5rem;
+}
+
+.fly-feature-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0px 2px 33px 0px #00000014;
+    height: 100%;
+
+}
+
+.fly-feature-card .fly-icon {
+    width: 38px;
+    height: 38px;
+    display: inline-flex;
+}
+
+.fly-feature-card h5 {
+    font-family: inter Tight;
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 100%;
+    letter-spacing: 0px;
+    color: var(--fly-text-primary);
+}
+
+.fly-feature-card p {
+    font-family: Inter Tight;
+    font-weight: 400;
+    font-size: 15px;
+    color: #565656;
+}
+
+/* Steps & Pricing Section */
+.fly-steps-pricing-section {
+    background-color: #053862;
+    color: #fff;
+    padding: 60px 0;
+    text-align: center;
+}
+
+.fly-steps-pricing-section h2 {
+    font-family: Inter Tight;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 120%;
+    letter-spacing: 0px;
+    color: #fff;
+    margin-bottom: 70px;
+}
+
+.fly-step-item {
+    margin-bottom: 3rem;
+}
+
+.fly-step-icon {
+    font-family: Inter Tight;
+    font-weight: 600;
+    font-size: 80px;
+    line-height: 100%;
+    letter-spacing: 0px;
+    width: 50px;
+    height: 50px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.fly-step-icon::after {
+    content: '✔';
+    font-size: 14px;
+    background: #B2C1CE;
+    color: #00345d;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 19px;
+    right: -4px;
+}
+
+.fly-step-item h6 {
+    font-family: Inter Tight;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 100%;
+    letter-spacing: 0px;
+    color: #fff;
+}
+
+.fly-step-item p {
+    font-family: Manrope;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 100%;
+    letter-spacing: 0px;
+    color: #F1F1F1;
+}
+
+.fly-pricing-card {
+    background-color: #E6EBEF;
+    color: #000;
+    border-radius: 8px;
+    padding: 32px;
+    text-align: left;
+    gap: 38px;
+}
+
+.fly-pricing-card .fly-plan-name {
+    height: 39px;
+    font-family: Inter Tight;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 0px;
+    text-transform: uppercase;
+    display: inline-block;
+    padding: 10px 16px;
+    border: 1px solid #2D2E2E;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+.fly-pricing-card .fly-price {
+    font-family: Inter Tight;
+    font-size: 50px;
+    font-weight: 600;
+    line-height: 100%;
+    letter-spacing: 0px;
+}
+
+.fly-pricing-card .fly-period {
+    font-family: Inter Tight;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 0px;
+    color: #2D2E2E;
+    margin: 30px 0;
+}
+
+.fly-pricing-card .fly-btn-dark {
+    background-color: #053862;
+    border-color: #053862;
+    border-radius: 6px;
+    padding: 16px 24px;
+    font-family: Inter Tight;
+    font-size: 18px;
+    line-height: 100%;
+    letter-spacing: 0px;
+    color: #fff;
+    font-weight: 500;
+}
+
+.fly-pricing-card ul {
+    list-style: none;
+    padding: 0;
+}
+
+.fly-pricing-card li {
+    font-family: Inter Tight;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 30px;
+    letter-spacing: 0px;
+    color: #2D2E2E;
+}
+
+.fly-pricing-card li i {
+    color: #053862;
+    margin-right: 0.75rem;
+}
+
+/* FAQ Section */
+.faq-section {
+    padding: 6rem 0;
+}
+
+.faq-section h2 {
+    text-align: center;
+    font-family: Inter Tight;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 120%;
+    letter-spacing: 0px;
+    color: var(--fly-text-primary);
+}
+
+.accordion-item {
+    border: none;
+    border-bottom: 1px solid #ddd;
+}
+
+.accordion-button {
+    font-family: Inter Tight;
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 100%;
+    letter-spacing: 0px;
+    color: #343434;
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.accordion-body {
+    font-family: Inter Tight;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 100%;
+    letter-spacing: 0px;
+    color: #565656;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    color: #053862 !important;
+}
+
+.accordion-button:focus {
+    box-shadow: none;
+}
+
+.accordion-body {
+    color: var(--fly-text-secondary);
+}
+
+.accordion-button::after {
+    content: "+";
+    /* Plus icon initially */
+    width: 28px;
+    height: 28px;
+    font-family: Inter Tight;
+    font-size: 2rem;
+    font-weight: 500;
+    color: #053862;
+    background-image: none !important;
+    margin-left: auto;
+    transition: transform 0.2s ease-in-out;
+}
+
+.accordion-button:not(.collapsed)::after {
+    content: "−";
+    transform: none;
+}
+
+@media (max-width: 1200px) {
+    .fly-hero-content h1 {
+        font-size: 41px !important;
+    }
+
+    .fly-hero-content p {
+        font-size: 14px !important;
+    }
+
+    .accordion-button {
+        font-size: 24px !important;
+    }
+
+    .fly-feature-card h5 {
+        font-size: 22px !important;
+    }
+
+    .fly-feature-card p {
+        font-size: 14px !important;
+    }
+
+    .fly-step-item h6 {
+        font-size: 18px !important;
+    }
+
+    .fly-step-item p {
+        line-height: 150% !important;
+    }
+}
+
+@media (max-width: 1200px) {
+    .fly-hero-content {
+        padding-top: 60px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .fly-logo-grid {
+        justify-content: center !important;
+    }
+
+    .fly-logo-grid img {
+        flex: 0 1 calc(30.33% - 38px) !important;
+        max-width: calc(30.33% - 38px) !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .fly-logo-grid img {
+        flex: 0 1 calc(100% - 38px) !important;
+        max-width: calc(100% - 38px) !important;
+    }
+
+    .fly-features-section h2 {
+        font-size: 28px !important;
+    }
+
+    .fly-partners-section h3 {
+        font-size: 25px !important;
+    }
+
+    .faq-section h2 {
+        font-size: 29px !important;
+    }
+
+    .fly-steps-pricing-section h2 {
+        font-size: 32px !important;
+    }
+
+    .fly-hero-content h1 {
+        font-size: 39px !important;
+    }
+}
