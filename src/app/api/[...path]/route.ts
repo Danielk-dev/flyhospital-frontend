@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { config } from '@/lib/config';
 
+export const dynamic = 'force-dynamic';
+
 const ALLOWED_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'] as const;
 
 async function proxyRequest(request: NextRequest, params: { path: string[] }) {
@@ -9,10 +11,10 @@ async function proxyRequest(request: NextRequest, params: { path: string[] }) {
 	targetUrl.search = request.nextUrl.search;
 
 	const headers = new Headers();
-	const contentType = request.headers.get('content-type');
-	if (contentType) headers.set('content-type', contentType);
-	const accept = request.headers.get('accept');
-	if (accept) headers.set('accept', accept);
+	for (const [key, value] of request.headers) {
+		if (key.toLowerCase() === 'host') continue;
+		headers.set(key, value);
+	}
 
 	const init: RequestInit = {
 		method: request.method,
@@ -59,8 +61,4 @@ export async function PATCH(request: NextRequest, context: { params: Promise<{ p
 export async function DELETE(request: NextRequest, context: { params: Promise<{ path: string[] }> }) {
 	const params = await context.params;
 	return proxyRequest(request, params);
-}
-
-export function generateStaticParams() {
-	return [];
 }
