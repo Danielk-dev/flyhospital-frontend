@@ -7,22 +7,34 @@ export default function BecomePartner() {
 	const selectPlan = useRegistrationStore((s) => s.selectPlan);
 
 	return (
-		<section className="become-partner-section container py-5">
-			<div className="text-center mb-5">
-				<h2>Welcome to ClickHospitals Partnership Registration!</h2>
-				<p>Create an account to become our partner and list your clinic on ClickHospitals in 4 simple steps.</p>
-			</div>
+		<section className="registration-page container">
+			 <div className="registration-card">
+        <header className="page-header">
+        <h1>
+          Welcome to <br />
+          ClickHospitals Partnership Registration!
+        </h1>
+        <span className="subhead">
+          <i className="fas fa-clinic-medical"></i>
+          Create an account to become our partner and list your clinic on
+          ClickHospitals in 4 simple steps.
+        </span>
+      </header>
+
 			<div className="plans-grid  row">
 				<div className="col-md-6">
-					<div className="card  plan-card basic">
-						<h3 className="plan-title plan-header">STARTER</h3>
-					   <div className="plan-price">
-						<span className="price">$0</span>
-						<span className="period">/year</span>
-						</div>
-						   <p className="plan-description">
-							Perfect for hospitals wanting an online presence.
-							</p>
+					<div className="card basic">
+			     <div className="plan-header">
+            <h2 className="plan-title">STARTER</h2>
+            <p className="plan-subtitle">Basic Directory Listing</p>
+            <div className="plan-price">
+              <span className="price">$0</span>
+              <span className="period">/year</span>
+            </div>
+            <p className="plan-description">
+              Perfect for hospitals wanting an online presence.
+            </p>
+          </div>
               		 <ul className="feature-list">
             <li>
               <svg
@@ -230,9 +242,8 @@ export default function BecomePartner() {
 							</div>
 				</div>
 				<div className="col-md-6">
-					<div className="card plan-card featured">
+					<div className="card featured">
              <div className="plan-header">
-						<span className="badge bg-primary mb-2">Recommended</span>
 						<div className="badge">FEATURED PARTNER</div>
             <p className="plan-subtitle">Featured Hospital</p>
 						<div className="plan-price">
@@ -247,7 +258,7 @@ export default function BecomePartner() {
 
 						<ul className="feature-list">
             <li>
-              <svg
+               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20px"
                 height="20px"
@@ -258,12 +269,12 @@ export default function BecomePartner() {
                   cx="32"
                   cy="32"
                   r="22"
-                  stroke="white"
+                  stroke="black"
                   strokeWidth="4"
                 />
                 <path
                   d="M23 32L30 39L42 25"
-                  stroke="white"
+                  stroke="black"
                   strokeWidth="4"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -283,12 +294,12 @@ export default function BecomePartner() {
                   cx="32"
                   cy="32"
                   r="22"
-                  stroke="white"
+                  stroke="black"
                   strokeWidth="4"
                 />
                 <path
                   d="M23 32L30 39L42 25"
-                  stroke="white"
+                  stroke="black"
                   strokeWidth="4"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -308,12 +319,12 @@ export default function BecomePartner() {
                   cx="32"
                   cy="32"
                   r="22"
-                  stroke="white"
+                  stroke="black"
                   strokeWidth="4"
                 />
                 <path
                   d="M23 32L30 39L42 25"
-                  stroke="white"
+                  stroke="black"
                   strokeWidth="4"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -333,12 +344,12 @@ export default function BecomePartner() {
                   cx="32"
                   cy="32"
                   r="22"
-                  stroke="white"
+                  stroke="black"
                   strokeWidth="4"
                 />
                 <path
                   d="M23 32L30 39L42 25"
-                  stroke="white"
+                  stroke="black"
                   strokeWidth="4"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -358,12 +369,12 @@ export default function BecomePartner() {
                   cx="32"
                   cy="32"
                   r="22"
-                  stroke="white"
+                  stroke="black"
                   strokeWidth="4"
                 />
                 <path
                   d="M23 32L30 39L42 25"
-                  stroke="white"
+                  stroke="black"
                   strokeWidth="4"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -383,12 +394,12 @@ export default function BecomePartner() {
                   cx="32"
                   cy="32"
                   r="22"
-                  stroke="white"
+                  stroke="black"
                   strokeWidth="4"
                 />
                 <path
                   d="M23 32L30 39L42 25"
-                  stroke="white"
+                  stroke="black"
                   strokeWidth="4"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -408,12 +419,12 @@ export default function BecomePartner() {
                   cx="32"
                   cy="32"
                   r="22"
-                  stroke="white"
+                  stroke="black"
                   strokeWidth="4"
                 />
                 <path
                   d="M23 32L30 39L42 25"
-                  stroke="white"
+                  stroke="black"
                   strokeWidth="4"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -426,6 +437,7 @@ export default function BecomePartner() {
 					</div>
 				</div>
 			</div>
+      </div>
 		</section>
 	);
 }
