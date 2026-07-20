@@ -10,10 +10,11 @@ export default function PopularHospitals() {
 	const loading = useGeneralStore((s) => s.loading);
 	const { currentIndex, slidesPerView, maxIndex, prevSlide, nextSlide } = useSlider(hospitals.length);
 	
-const formatRating = (rating) => {
-  const num = parseFloat(rating)
-  return isNaN(num) ? 'N/A' : num.toFixed(1)
-}
+	const formatRating = (rating: string | number | null | undefined) => {
+		const num = parseFloat(String(rating ?? ''));
+		return Number.isNaN(num) ? 'N/A' : num.toFixed(1);
+	};
+
 
 	return (
 		<section className="popular-hospitals-section">
@@ -37,8 +38,8 @@ const formatRating = (rating) => {
 										<h3 className="card-title"><Link href={`/hospitals/${hospital.id}`}>{hospital.name || hospital.title}</Link></h3>
 										  <p className="card-text">{hospital.address}</p>
 										
-										{hospital.rating && (
-											<span className="rating-badge"><span className="star">★</span>{formatRating(hospital.rating)}</span>
+										{hospital.average_rating && (
+											<span className="rating-badge"><span className="star">★</span>{formatRating(hospital.average_rating)}</span>
 										)}
 									</div>
 								))}

@@ -124,7 +124,7 @@ const navigateToDestinations = () => {
 																>
 																	<div className="country-flag">
 																		 <img
-																		src={country.image_url || country.media?.[0]?.original_url}
+																		src={country.image_url}
 																		alt="ClickHospitals Logo"
 																		loading="eager"
 																		className={`logo${!imageLoaded ? ' image-loading' : ''}`}
