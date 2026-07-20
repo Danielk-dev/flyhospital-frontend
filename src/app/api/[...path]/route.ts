@@ -10,9 +10,21 @@ async function proxyRequest(request: NextRequest, params: { path: string[] }) {
 	const targetUrl = new URL(`${config.baseUrl}/${path}`);
 	targetUrl.search = request.nextUrl.search;
 
+	const headersToExclude = new Set([
+		'host',
+		'connection',
+		'keep-alive',
+		'transfer-encoding',
+		'upgrade',
+		'te',
+		'trailers',
+		'proxy-authenticate',
+		'proxy-authorization',
+	]);
+
 	const headers = new Headers();
 	for (const [key, value] of request.headers) {
-		if (key.toLowerCase() === 'host') continue;
+		if (headersToExclude.has(key.toLowerCase())) continue;
 		headers.set(key, value);
 	}
 
